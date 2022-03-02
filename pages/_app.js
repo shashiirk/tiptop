@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import NavBar from '../components/NavBar';
 
@@ -10,18 +10,32 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    /* border: 2px green solid; */
+    color: #374e62;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 `;
 
+const Container = styled.div`
+  /* border: 1px red solid; */
+  min-height: 100vh;
+  max-width: 1440px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+`;
+
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <GlobalStyle />
-      <NavBar />
-      <Component {...pageProps} />
+      <Container>
+        <NavBar />
+        <Component {...pageProps} />
+      </Container>
     </>
   );
 };

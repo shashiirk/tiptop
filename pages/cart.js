@@ -1,5 +1,7 @@
+import EmptyCart from '../components/EmptyCart';
+
 const Cart = () => {
-  return <div>Cart</div>;
+  return <EmptyCart />;
 };
 
 export default Cart;

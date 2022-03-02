@@ -1,5 +1,7 @@
+import EmptyWishlist from '../components/EmptyWishlist';
+
 const Wishlist = () => {
-  return <div>Wishlist</div>;
+  return <EmptyWishlist />;
 };
 
 export default Wishlist;
