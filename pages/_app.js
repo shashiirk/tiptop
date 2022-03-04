@@ -15,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
+
+  *::selection {
+    background-color: #b699f2;
+  }
 `;
 
 const Container = styled.div`

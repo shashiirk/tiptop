@@ -42,7 +42,7 @@ const EmptyCart = () => {
       <div className="round">
         <CartIcon />
       </div>
-      <p className="text">Your shopping bag is empty</p>
+      <p className="text">Your cart is empty</p>
     </Div>
   );
 };

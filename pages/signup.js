@@ -3,6 +3,23 @@ import styled from 'styled-components';
 
 import { LogoIcon } from '../assets/icons';
 
+const MainNav = styled.div`
+  /* border: 1px green solid; */
+  font-size: 13px;
+  background-color: #f4f4f4;
+  padding: 16px;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  span {
+    color: #999;
+  }
+`;
+
 const Div = styled.div`
   /* background-color: #f6f6f6; */
   flex: 1;
@@ -19,7 +36,7 @@ const Div = styled.div`
     background-color: white;
     padding: 32px;
     margin: auto;
-    border-radius: 12px;
+    border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
 
     .title {
@@ -43,7 +60,7 @@ const Div = styled.div`
         margin-bottom: 20px;
         outline: none;
         border: 1px #ddd solid;
-        border-radius: 12px;
+        border-radius: 10px;
 
         &::placeholder {
           color: #bbb;
@@ -63,7 +80,7 @@ const Div = styled.div`
         cursor: pointer;
         padding: 14px 28px;
         border: none;
-        border-radius: 12px;
+        border-radius: 10px;
         box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
       }
     }
@@ -84,27 +101,32 @@ const Div = styled.div`
 
 const SignUp = () => {
   return (
-    <Div>
-      <div className="box">
-        <div className="title">
-          <LogoIcon />
+    <>
+      <MainNav>
+        <Link href="/">Home</Link> / <span>Sign Up</span>
+      </MainNav>
+      <Div>
+        <div className="box">
+          <div className="title">
+            <LogoIcon />
+          </div>
+          <form className="form">
+            <input type="text" name="name" id="name" placeholder="Name" />
+            <input type="email" name="email" id="email" placeholder="Email" />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+            <button type="submit">Sign Up</button>
+          </form>
+          <p className="info">
+            Do you have an account? <Link href="/signin">Sign In</Link>
+          </p>
         </div>
-        <form className="form">
-          <input type="text" name="name" id="name" placeholder="Name" />
-          <input type="email" name="email" id="email" placeholder="Email" />
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-          />
-          <button type="submit">Sign Up</button>
-        </form>
-        <p className="info">
-          Do you have an account? <Link href="/signin">Sign In</Link>
-        </p>
-      </div>
-    </Div>
+      </Div>
+    </>
   );
 };
 

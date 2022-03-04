@@ -28,7 +28,7 @@ const Div = styled.div`
     text-decoration: none;
     font-weight: 500;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #8e2de2;
     background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
     background: linear-gradient(to right, #8e2de2, #4a00e0);
@@ -42,7 +42,7 @@ const Home = () => {
     <Div>
       <p className="title">Wear better, look better.</p>
       <p className="text">Don't you just love being in apparel?</p>
-      <Link href="/products">Shop Now</Link>
+      <Link href="/collections">Shop Now</Link>
     </Div>
   );
 };
