@@ -4,19 +4,21 @@ import styled from 'styled-components';
 import { UserIcon } from '../assets/icons';
 
 const Div = styled.div`
-  background-color: #f6f6f6;
+  /* background-color: #f6f6f6; */
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 16px;
 
   .round {
-    border: 1px #374e62 dashed;
+    border: 1px #ddd solid;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 
     .icon {
       margin: 24px 24px;
@@ -32,25 +34,27 @@ const Div = styled.div`
 
   .title {
     margin-top: 24px;
-    font-family: 'EB Garamond', serif;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
   }
 
   .text {
     margin-top: 24px;
-    font-size: 13px;
   }
 
   a {
     display: block;
     margin-top: 30px;
-    padding: 13px 39px;
+    padding: 14px 42px;
     text-decoration: none;
-    color: inherit;
-    font-size: 13px;
+    background: #8e2de2;
+    background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    color: white;
     font-weight: 500;
-    border: 1px #374e62 solid;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
   }
 `;
 

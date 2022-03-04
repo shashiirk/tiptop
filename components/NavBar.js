@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { WishlistIcon, CartIcon, UserIcon } from '../assets/icons';
+import { LogoIcon, WishlistIcon, CartIcon, UserIcon } from '../assets/icons';
 import BetterLink from './BetterLink';
 
 const Div = styled.div`
@@ -12,13 +12,27 @@ const Div = styled.div`
   padding: 16px;
 
   .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     a {
-      display: block;
-      font-family: 'Dancing Script', cursive;
-      font-size: 48px;
-      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 8px;
       text-decoration: none;
       color: inherit;
+
+      .icon {
+        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+      }
+
+      p {
+        font-size: 24px;
+        font-weight: 500;
+        margin-left: 8px;
+      }
     }
   }
 
@@ -31,6 +45,7 @@ const Div = styled.div`
 
     .nav-item {
       /* border: 1px blue solid; */
+      color: #999;
       display: flex;
       align-items: center;
       padding: 8px;
@@ -39,6 +54,14 @@ const Div = styled.div`
       a {
         text-decoration: none;
         color: inherit;
+
+        @media (hover: hover) {
+          transition: color 240ms;
+
+          &:hover {
+            color: #4a00e0;
+          }
+        }
       }
 
       &:last-child {
@@ -53,7 +76,10 @@ const NavBar = () => {
   return (
     <Div>
       <h1 className="title">
-        <Link href="/">tiptop</Link>
+        <BetterLink href="/">
+          <LogoIcon />
+          <p>tiptop</p>
+        </BetterLink>
       </h1>
       <ul className="nav-items">
         <li className="nav-item">

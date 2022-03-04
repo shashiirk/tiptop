@@ -11,7 +11,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     /* border: 2px green solid; */
-    color: #374e62;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
