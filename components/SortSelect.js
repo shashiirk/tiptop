@@ -46,6 +46,7 @@ const SortSelect = () => {
   return (
     <Select
       blurInputOnSelect
+      instanceId="sort-select"
       isSearchable={false}
       options={options}
       placeholder="Sort by"
