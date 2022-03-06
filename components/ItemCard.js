@@ -15,12 +15,8 @@ const Div = styled.div`
     color: inherit;
   }
 
-  img {
-    border-radius: 8px;
-  }
-
   .info {
-    padding: 8px;
+    margin: 8px 0;
 
     .brand {
       font-weight: 500;
@@ -28,6 +24,7 @@ const Div = styled.div`
 
     .name {
       /* font-size: 14px; */
+      color: #777;
       margin: 8px 0;
     }
 

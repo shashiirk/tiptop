@@ -31,7 +31,7 @@ const Div = styled.div`
 
   .aside {
     /* border: 1px blue solid; */
-    width: 400px;
+    width: 300px;
     padding: 16px;
 
     .title {
