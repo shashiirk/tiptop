@@ -50,6 +50,7 @@ const Div = styled.div`
 
     .form {
       margin-top: 32px;
+      font-size: 14px;
 
       input {
         display: block;
@@ -89,7 +90,7 @@ const Div = styled.div`
       margin-top: 32px;
       margin-bottom: 16px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
 
       a {
         text-decoration: none;

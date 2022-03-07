@@ -8,7 +8,7 @@ const options = [
 const customStyles = {
   container: (provided) => ({
     ...provided,
-    fontSize: '13px',
+    fontSize: '14px',
   }),
   control: (provided) => ({
     ...provided,

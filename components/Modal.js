@@ -17,7 +17,8 @@ const Div = styled.div`
     width: 100%;
     height: 100%;
     z-index: 20;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
   }
 
   .modal {
@@ -27,7 +28,6 @@ const Div = styled.div`
     margin: auto;
     max-width: 85%;
     border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     z-index: 30;
 
     button {

@@ -4,11 +4,8 @@ import styled from 'styled-components';
 import BetterLink from './BetterLink';
 
 const Div = styled.div`
-  font-size: 13px;
-  /* border: 1px #eee solid; */
-  /* border-radius: 12px; */
-  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); */
-  /* position: relative; */
+  font-size: 14px;
+  border: 1px #eee solid;
 
   a {
     text-decoration: none;
@@ -16,7 +13,7 @@ const Div = styled.div`
   }
 
   .info {
-    margin: 8px 0;
+    padding: 8px;
 
     .brand {
       font-weight: 500;

@@ -26,26 +26,28 @@ const MainNav = styled.div`
 `;
 
 const Div = styled.div`
-  padding: 16px;
+  padding: 32px;
   /* border: 1px green solid; */
 
   .card {
-    border: 1px #ddd solid;
+    /* border: 1px #eee solid; */
     border-radius: 12px;
     width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;
     margin: auto;
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); */
 
-    img {
-      border-radius: 10px;
-    }
+    /* img {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    } */
 
     .info {
       /* border: 1px green solid; */
-      margin-left: 32px;
+      margin: 16px;
+      padding: 16px;
 
       .brand {
         font-size: 20px;
@@ -78,7 +80,7 @@ const Div = styled.div`
           .chart {
             color: #4a00e0;
             margin-left: 16px;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
           }
         }
@@ -170,8 +172,8 @@ const ModalDiv = styled.div`
 
     table {
       border-collapse: collapse;
-      font-size: 13px;
-      width: 448px;
+      font-size: 14px;
+      width: 474px;
 
       th {
         font-weight: 500;

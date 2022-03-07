@@ -20,7 +20,7 @@ const Div = styled.div`
     .text {
       margin: 0;
       padding: 0;
-      font-size: 13px;
+      font-size: 14px;
     }
   }
 `;
