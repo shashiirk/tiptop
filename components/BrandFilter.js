@@ -25,18 +25,20 @@ const Div = styled.div`
   }
 `;
 
-const BRANDS = ['Abercrombie & Fitch', 'American Eagle', 'Hollister', 'Zara'];
+// const BRANDS = ['Abercrombie & Fitch', 'American Eagle', 'Hollister', 'Zara'];
 
-const BrandFilter = () => {
+const BrandFilter = ({ items }) => {
   return (
     <Div>
       <div className="heading">Brand</div>
-      {BRANDS.map((value, index) => (
-        <div className="item" key={index}>
-          <CheckBox />
-          <span className="text">{value}</span>
-        </div>
-      ))}
+      {items
+        .sort((a, b) => a.localeCompare(b))
+        .map((value, index) => (
+          <div className="item" key={index}>
+            <CheckBox of={value} type="brand" />
+            <span className="text">{value}</span>
+          </div>
+        ))}
     </Div>
   );
 };

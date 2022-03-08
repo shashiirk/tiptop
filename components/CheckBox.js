@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { CheckIcon } from '../assets/icons';
+import { filterActions } from '../store/filterSlice';
 
 const Button = styled.button`
   flex-shrink: 0;
@@ -27,10 +29,26 @@ const Button = styled.button`
   }
 `;
 
-const CheckBox = () => {
+const CheckBox = ({ of, type }) => {
   const [isChecked, setIsChecked] = useState(false);
 
+  const dispatch = useDispatch();
+
   const clickHandler = () => {
+    if (isChecked) {
+      if (type === 'brand') {
+        dispatch(filterActions.deselectBrand(of));
+      } else if (type === 'category') {
+        dispatch(filterActions.deselectCategory(of));
+      }
+    } else {
+      if (type === 'brand') {
+        dispatch(filterActions.selectBrand(of));
+      } else if (type === 'category') {
+        dispatch(filterActions.selectCategory(of));
+      }
+    }
+
     setIsChecked((prevValue) => !prevValue);
   };
 

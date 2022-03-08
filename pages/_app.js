@@ -1,5 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import { Provider } from 'react-redux';
 
+import store from '../store';
 import NavBar from '../components/NavBar';
 
 const GlobalStyle = createGlobalStyle`
@@ -36,8 +38,10 @@ const MyApp = ({ Component, pageProps }) => {
     <>
       <GlobalStyle />
       <Container>
-        <NavBar />
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <NavBar />
+          <Component {...pageProps} />
+        </Provider>
       </Container>
     </>
   );

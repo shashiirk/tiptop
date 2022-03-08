@@ -25,18 +25,20 @@ const Div = styled.div`
   }
 `;
 
-const CATEGORIES = ['Hoodies', 'Jeans', 'Polos', 'Shirts'];
+// const CATEGORIES = ['Hoodies', 'Jeans', 'Polos', 'Shirts'];
 
-const CategoryFilter = () => {
+const CategoryFilter = ({ items }) => {
   return (
     <Div>
       <div className="heading">Category</div>
-      {CATEGORIES.map((value, index) => (
-        <div className="item" key={index}>
-          <CheckBox />
-          <span className="text">{value}</span>
-        </div>
-      ))}
+      {items
+        .sort((a, b) => a.localeCompare(b))
+        .map((value, index) => (
+          <div className="item" key={index}>
+            <CheckBox of={value} type="category" />
+            <span className="text">{value}</span>
+          </div>
+        ))}
     </Div>
   );
 };

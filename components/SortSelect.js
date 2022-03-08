@@ -1,6 +1,10 @@
 import Select from 'react-select';
+import { useDispatch } from 'react-redux';
+
+import { filterActions } from '../store/filterSlice';
 
 const options = [
+  { value: 'default', label: 'Default' },
   { value: 'price_high_to_low', label: 'Price: High to Low' },
   { value: 'price_low_to_high', label: 'Price: Low to High' },
 ];
@@ -28,7 +32,7 @@ const customStyles = {
   }),
   option: (provided, state) => ({
     ...provided,
-    // border: '1px red solid',
+    border: 'none',
     backgroundColor: state.isSelected ? '#4a00e0' : 'white',
     cursor: 'pointer',
     ':active': {
@@ -43,11 +47,19 @@ const customStyles = {
 };
 
 const SortSelect = () => {
+  const dispatch = useDispatch();
+
+  const changeHandler = (selectedOption) => {
+    dispatch(filterActions.chooseSort(selectedOption.value));
+  };
+
   return (
     <Select
       blurInputOnSelect
+      defaultValue={options[0]}
       instanceId="sort-select"
       isSearchable={false}
+      onChange={changeHandler}
       options={options}
       placeholder="Sort by"
       styles={customStyles}

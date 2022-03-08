@@ -10,7 +10,7 @@ import { WishlistIcon } from '../../assets/icons';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
-  font-size: 13px;
+  font-size: 14px;
   background-color: #f4f4f4;
   padding: 16px;
   text-align: center;

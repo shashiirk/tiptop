@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import BrandFilter from '../../components/BrandFilter';
@@ -202,7 +203,31 @@ const CLOTHES = [
   },
 ];
 
-const Products = ({ clothes }) => {
+const Products = ({ clothes, brands, categories }) => {
+  const filteredBrands = useSelector((state) => state.filter.brands);
+  const filteredCategories = useSelector((state) => state.filter.categories);
+  const filteredSort = useSelector((state) => state.filter.sort);
+
+  let filteredClothes;
+
+  filteredClothes =
+    filteredBrands.length > 0
+      ? [...clothes].filter((value) => filteredBrands.includes(value.brand))
+      : [...clothes];
+
+  filteredClothes =
+    filteredCategories.length > 0
+      ? filteredClothes.filter((value) =>
+          filteredCategories.includes(value.category)
+        )
+      : filteredClothes;
+
+  if (filteredSort === 'price_high_to_low') {
+    filteredClothes = filteredClothes.sort((a, b) => +b.amount - +a.amount);
+  } else if (filteredSort === 'price_low_to_high') {
+    filteredClothes = filteredClothes.sort((a, b) => +a.amount - +b.amount);
+  }
+
   return (
     <>
       <MainNav>
@@ -211,8 +236,8 @@ const Products = ({ clothes }) => {
       <Div>
         <aside className="aside">
           <div className="title">Filters</div>
-          <BrandFilter />
-          <CategoryFilter />
+          <BrandFilter items={brands} />
+          <CategoryFilter items={categories} />
         </aside>
         <main className="main">
           <div className="top">
@@ -220,7 +245,7 @@ const Products = ({ clothes }) => {
             <SortSelect />
           </div>
           <div className="clothes">
-            {clothes.map((item) => (
+            {filteredClothes.map((item) => (
               <ItemCard key={item.id} {...item} />
             ))}
           </div>
@@ -233,9 +258,27 @@ const Products = ({ clothes }) => {
 export const getStaticProps = (context) => {
   const items = getItems();
 
+  const brands = items.reduce((previous, current) => {
+    if (!previous.includes(current.brand)) {
+      previous.push(current.brand);
+    }
+
+    return previous;
+  }, []);
+
+  const categories = items.reduce((previous, current) => {
+    if (!previous.includes(current.category)) {
+      previous.push(current.category);
+    }
+
+    return previous;
+  }, []);
+
   return {
     props: {
       clothes: items,
+      brands,
+      categories,
     },
   };
 };
