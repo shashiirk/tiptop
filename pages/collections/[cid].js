@@ -175,6 +175,10 @@ const ModalDiv = styled.div`
       font-size: 14px;
       width: 474px;
 
+      &.jeans {
+        width: 356px;
+      }
+
       th {
         font-weight: 500;
       }
@@ -202,7 +206,7 @@ const ModalDiv = styled.div`
   }
 `;
 
-const ItemDetails = ({ id, imageURL, brand, name, amount }) => {
+const ItemDetails = ({ imageURL, brand, category, name, amount }) => {
   const [showSizeChart, setShowSizeChart] = useState(false);
 
   const openSizeChartHandler = () => {
@@ -237,10 +241,21 @@ const ItemDetails = ({ id, imageURL, brand, name, amount }) => {
                 </div>
               </div>
               <div className="sizes">
-                <button>S</button>
-                <button>M</button>
-                <button>L</button>
-                <button>XL</button>
+                {category === 'Jeans' ? (
+                  <>
+                    <button>31</button>
+                    <button>32</button>
+                    <button>33</button>
+                    <button>34</button>
+                  </>
+                ) : (
+                  <>
+                    <button>S</button>
+                    <button>M</button>
+                    <button>L</button>
+                    <button>XL</button>
+                  </>
+                )}
               </div>
             </div>
             <div className="actions">
@@ -257,38 +272,72 @@ const ItemDetails = ({ id, imageURL, brand, name, amount }) => {
           <ModalDiv>
             <div className="title">Size Chart</div>
             <div className="table">
-              <table>
-                <tr>
-                  <th>Size</th>
-                  <th>Chest (in)</th>
-                  <th>Front Length (in)</th>
-                  <th>Across Shoulder (in)</th>
-                </tr>
-                <tr>
-                  <td>S</td>
-                  <td>38.0</td>
-                  <td>29.5</td>
-                  <td>18.0</td>
-                </tr>
-                <tr>
-                  <td>M</td>
-                  <td>41.0</td>
-                  <td>30.0</td>
-                  <td>18.5</td>
-                </tr>
-                <tr>
-                  <td>L</td>
-                  <td>44.0</td>
-                  <td>30.5</td>
-                  <td>19.0</td>
-                </tr>
-                <tr>
-                  <td>XL</td>
-                  <td>46.0</td>
-                  <td>31.0</td>
-                  <td>19.5</td>
-                </tr>
-              </table>
+              {category === 'Jeans' ? (
+                <>
+                  <table className="jeans">
+                    <tr>
+                      <th>Size</th>
+                      <th>To Fit Waist (in)</th>
+                      <th>Inseam Length (in)</th>
+                    </tr>
+                    <tr>
+                      <td>31</td>
+                      <td>31.0</td>
+                      <td>32.0</td>
+                    </tr>
+                    <tr>
+                      <td>32</td>
+                      <td>32.0</td>
+                      <td>32.0</td>
+                    </tr>
+                    <tr>
+                      <td>33</td>
+                      <td>33.0</td>
+                      <td>32.0</td>
+                    </tr>
+                    <tr>
+                      <td>34</td>
+                      <td>34.0</td>
+                      <td>32.0</td>
+                    </tr>
+                  </table>
+                </>
+              ) : (
+                <>
+                  <table>
+                    <tr>
+                      <th>Size</th>
+                      <th>Chest (in)</th>
+                      <th>Front Length (in)</th>
+                      <th>Across Shoulder (in)</th>
+                    </tr>
+                    <tr>
+                      <td>S</td>
+                      <td>38.0</td>
+                      <td>29.5</td>
+                      <td>18.0</td>
+                    </tr>
+                    <tr>
+                      <td>M</td>
+                      <td>41.0</td>
+                      <td>30.0</td>
+                      <td>18.5</td>
+                    </tr>
+                    <tr>
+                      <td>L</td>
+                      <td>44.0</td>
+                      <td>30.5</td>
+                      <td>19.0</td>
+                    </tr>
+                    <tr>
+                      <td>XL</td>
+                      <td>46.0</td>
+                      <td>31.0</td>
+                      <td>19.5</td>
+                    </tr>
+                  </table>
+                </>
+              )}
             </div>
           </ModalDiv>
         </Modal>
