@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 
 import store from '../store';
 import NavBar from '../components/NavBar';
+import ReactReduxFirebaseWrapper from '../components/ReactReduxFirebaseProvider';
+import { WishlistProvider } from '../store/WishlistContext';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -39,8 +41,12 @@ const MyApp = ({ Component, pageProps }) => {
       <GlobalStyle />
       <Container>
         <Provider store={store}>
-          <NavBar />
-          <Component {...pageProps} />
+          <ReactReduxFirebaseWrapper>
+            <WishlistProvider>
+              <NavBar />
+              <Component {...pageProps} />
+            </WishlistProvider>
+          </ReactReduxFirebaseWrapper>
         </Provider>
       </Container>
     </>

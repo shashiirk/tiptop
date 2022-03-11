@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 import getAllStaticPaths from '../../utils/getAllStaticPaths';
 import getItemById from '../../utils/getItemById';
 import Modal from '../../components/Modal';
-import { WishlistIcon } from '../../assets/icons';
+import { db } from '../../services/firebase-config';
+import { useWishlist } from '../../store/WishlistContext';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
@@ -103,6 +107,11 @@ const Div = styled.div`
             background-color: white;
             cursor: pointer;
 
+            &.active {
+              border-color: #4a00e0;
+              color: #4a00e0;
+            }
+
             &:last-child {
               margin-right: 0;
             }
@@ -124,11 +133,15 @@ const Div = styled.div`
 
         button {
           font: inherit;
-          border-radius: 10px;
-          display: block;
+          font-weight: 500;
+          border-radius: 6px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           outline: none;
           cursor: pointer;
           border: none;
+          width: 145px;
         }
 
         .cart {
@@ -136,18 +149,12 @@ const Div = styled.div`
           background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
           background: linear-gradient(to right, #8e2de2, #4a00e0);
           color: white;
-          font-weight: 500;
           padding: 14px 28px;
-          width: 100%;
-          margin-right: 16px;
+          margin-left: 16px;
           box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
         }
 
         .wishlist {
-          padding: 0 12px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
           background-color: white;
           border: 1px #4a00e0 solid;
           color: #4a00e0;
@@ -206,8 +213,14 @@ const ModalDiv = styled.div`
   }
 `;
 
-const ItemDetails = ({ imageURL, brand, category, name, amount }) => {
+const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
+  const [size, setSize] = useState('');
   const [showSizeChart, setShowSizeChart] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+  const wishlistCtx = useWishlist();
+  const router = useRouter();
+
+  const isWishlisted = !!wishlistCtx.items.find((value) => value.itemId === id);
 
   const openSizeChartHandler = () => {
     setShowSizeChart(true);
@@ -215,6 +228,19 @@ const ItemDetails = ({ imageURL, brand, category, name, amount }) => {
 
   const closeSizeChartHandler = () => {
     setShowSizeChart(false);
+  };
+
+  const addToWishlistHandler = () => {
+    if (user) {
+      updateDoc(doc(db, user.uid, 'wishlist'), {
+        items: arrayUnion({
+          itemId: id,
+          itemSize: size || null,
+        }),
+      }).catch((error) => console.log(error));
+    } else {
+      router.push('/signin');
+    }
   };
 
   return (
@@ -243,26 +269,70 @@ const ItemDetails = ({ imageURL, brand, category, name, amount }) => {
               <div className="sizes">
                 {category === 'Jeans' ? (
                   <>
-                    <button>31</button>
-                    <button>32</button>
-                    <button>33</button>
-                    <button>34</button>
+                    <button
+                      className={size === '31' ? 'active' : ''}
+                      onClick={() => setSize('31')}
+                    >
+                      31
+                    </button>
+                    <button
+                      className={size === '32' ? 'active' : ''}
+                      onClick={() => setSize('32')}
+                    >
+                      32
+                    </button>
+                    <button
+                      className={size === '33' ? 'active' : ''}
+                      onClick={() => setSize('33')}
+                    >
+                      33
+                    </button>
+                    <button
+                      className={size === '34' ? 'active' : ''}
+                      onClick={() => setSize('34')}
+                    >
+                      34
+                    </button>
                   </>
                 ) : (
                   <>
-                    <button>S</button>
-                    <button>M</button>
-                    <button>L</button>
-                    <button>XL</button>
+                    <button
+                      className={size === 'S' ? 'active' : ''}
+                      onClick={() => setSize('S')}
+                    >
+                      S
+                    </button>
+                    <button
+                      className={size === 'M' ? 'active' : ''}
+                      onClick={() => setSize('M')}
+                    >
+                      M
+                    </button>
+                    <button
+                      className={size === 'L' ? 'active' : ''}
+                      onClick={() => setSize('L')}
+                    >
+                      L
+                    </button>
+                    <button
+                      className={size === 'XL' ? 'active' : ''}
+                      onClick={() => setSize('XL')}
+                    >
+                      XL
+                    </button>
                   </>
                 )}
               </div>
             </div>
             <div className="actions">
-              <button className="cart">Add to Cart</button>
-              <button className="wishlist">
-                <WishlistIcon />
+              <button
+                className="wishlist"
+                onClick={addToWishlistHandler}
+                disabled={isWishlisted}
+              >
+                {isWishlisted ? 'Wishlisted' : 'Wishlist'}
               </button>
+              <button className="cart">Add to Cart</button>
             </div>
           </div>
         </div>
