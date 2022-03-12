@@ -1,7 +1,11 @@
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { doc, updateDoc, arrayRemove } from 'firebase/firestore';
 
 import BetterLink from './BetterLink';
+import { CloseIcon } from '../assets/icons';
+import { db } from '../services/firebase-config';
 
 const Div = styled.div`
   font-size: 14px;
@@ -12,6 +16,7 @@ const Div = styled.div`
   .item {
     display: flex;
     align-items: center;
+    position: relative;
 
     a {
       /* border: 1px green solid; */
@@ -56,6 +61,27 @@ const Div = styled.div`
         font-weight: 500;
       }
     }
+
+    .delete {
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 10;
+      background-color: white;
+      cursor: pointer;
+
+      .icon {
+        width: 16px;
+        height: 16px;
+        stroke-width: 2px;
+      }
+    }
   }
 
   .cart {
@@ -73,7 +99,15 @@ const Div = styled.div`
   }
 `;
 
-const CartItemCard = ({ id, imageURL, brand, name, amount }) => {
+const CartItemCard = ({ id, size, imageURL, brand, name, amount }) => {
+  const user = useSelector((state) => state.auth.user);
+
+  const removeItemHandler = () => {
+    updateDoc(doc(db, user.uid, 'cart'), {
+      items: arrayRemove({ itemId: id, itemSize: size }),
+    }).catch((error) => console.log(error));
+  };
+
   return (
     <Div>
       <div className="item">
@@ -89,6 +123,9 @@ const CartItemCard = ({ id, imageURL, brand, name, amount }) => {
           </div>
           <div className="amount">{`Rs. ${amount}`}</div>
         </div>
+        <button className="delete" onClick={removeItemHandler}>
+          <CloseIcon />
+        </button>
       </div>
     </Div>
   );

@@ -1,8 +1,13 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import styled from 'styled-components';
 
 import EmptyCart from '../components/EmptyCart';
 import CartItemCard from '../components/CartItemCard';
+import { useCart } from '../store/CartContext';
+import SignInPromptTemplate from '../components/SignInPromptTemplate';
+import getItemById from '../utils/getItemById';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
@@ -123,47 +128,72 @@ const Div = styled.div`
 `;
 
 const Cart = () => {
+  const [clothes, setClothes] = useState([]);
+  const user = useSelector((state) => state.auth.user);
+  const cartCtx = useCart();
+
+  useEffect(() => {
+    const items = cartCtx.items.map((item) => {
+      const itemDetails = getItemById(item.itemId);
+      return { size: item.itemSize, ...itemDetails };
+    });
+
+    setClothes(items);
+  }, [cartCtx.items]);
+
+  const priceValue = clothes.reduce((prev, cur) => prev + +cur.amount, 0);
+  const discountValue = Math.floor(priceValue / 15);
+  const totalValue = priceValue - discountValue;
+
   return (
     <>
       <MainNav>
         <Link href="/">Home</Link> / <span>Cart</span>
       </MainNav>
-      <Div>
-        <div className="cart">
-          <div className="title">
-            Cart <span>({CLOTHES.length} items)</span>
-          </div>
-          <div className="clothes">
-            {CLOTHES.map((item) => (
-              <CartItemCard key={item.id} {...item} />
-            ))}
-          </div>
-        </div>
-        <div className="checkout">
-          <div className="title">Price details</div>
-          <div className="basic">
-            <div className="price">
-              <div className="title">Price</div>
-              <div className="amount">Rs 3550</div>
+      {user ? (
+        clothes.length > 0 ? (
+          <Div>
+            <div className="cart">
+              <div className="title">
+                Cart <span>({CLOTHES.length} items)</span>
+              </div>
+              <div className="clothes">
+                {clothes.map((item) => (
+                  <CartItemCard key={item.id} {...item} />
+                ))}
+              </div>
             </div>
-            <div className="discount">
-              <div className="title">Discount</div>
-              <div className="amount">- Rs 450</div>
+            <div className="checkout">
+              <div className="title">Price details</div>
+              <div className="basic">
+                <div className="price">
+                  <div className="title">Price</div>
+                  <div className="amount">Rs. {priceValue}</div>
+                </div>
+                <div className="discount">
+                  <div className="title">Discount</div>
+                  <div className="amount">- Rs. {discountValue}</div>
+                </div>
+                <div className="shipping">
+                  <div className="title">Shipping</div>
+                  <div className="amount">FREE</div>
+                </div>
+              </div>
+              <div className="total">
+                <div className="final">
+                  <div className="title">Total Amount</div>
+                  <div className="amount">Rs. {totalValue}</div>
+                </div>
+                <button className="order">Place Order</button>
+              </div>
             </div>
-            <div className="shipping">
-              <div className="title">Shipping</div>
-              <div className="amount">FREE</div>
-            </div>
-          </div>
-          <div className="total">
-            <div className="final">
-              <div className="title">Total Amount</div>
-              <div className="amount">Rs. 3250</div>
-            </div>
-            <button className="order">Place Order</button>
-          </div>
-        </div>
-      </Div>
+          </Div>
+        ) : (
+          <EmptyCart />
+        )
+      ) : (
+        <SignInPromptTemplate type="cart" />
+      )}
     </>
   );
 };

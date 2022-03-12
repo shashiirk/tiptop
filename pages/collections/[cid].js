@@ -11,6 +11,11 @@ import getItemById from '../../utils/getItemById';
 import Modal from '../../components/Modal';
 import { db } from '../../services/firebase-config';
 import { useWishlist } from '../../store/WishlistContext';
+import { useCart } from '../../store/CartContext';
+import SizePickerForTops from '../../components/SizePickerForTops';
+import SizePickerForBottoms from '../../components/SizePickerForBottoms';
+import SizeChartForTops from '../../components/SizeChartForTops';
+import SizeChartForBottoms from '../../components/SizeChartForBottoms';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
@@ -87,6 +92,11 @@ const Div = styled.div`
             font-size: 14px;
             cursor: pointer;
           }
+        }
+
+        .error {
+          margin-bottom: 16px;
+          color: #ff4646;
         }
 
         .sizes {
@@ -216,11 +226,15 @@ const ModalDiv = styled.div`
 const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
   const [size, setSize] = useState('');
   const [showSizeChart, setShowSizeChart] = useState(false);
+  const [promptSize, setPromptSize] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const wishlistCtx = useWishlist();
+  const cartCtx = useCart();
   const router = useRouter();
 
   const isWishlisted = !!wishlistCtx.items.find((value) => value.itemId === id);
+
+  const isAddedToCart = !!cartCtx.items.find((value) => value.itemId === id);
 
   const openSizeChartHandler = () => {
     setShowSizeChart(true);
@@ -238,6 +252,24 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
           itemSize: size || null,
         }),
       }).catch((error) => console.log(error));
+    } else {
+      router.push('/signin');
+    }
+  };
+
+  const addToCartHandler = () => {
+    if (user) {
+      if (size) {
+        setPromptSize(false);
+        updateDoc(doc(db, user.uid, 'cart'), {
+          items: arrayUnion({
+            itemId: id,
+            itemSize: size,
+          }),
+        }).catch((error) => console.log(error));
+      } else {
+        setPromptSize(true);
+      }
     } else {
       router.push('/signin');
     }
@@ -266,61 +298,15 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
                   Size Chart
                 </div>
               </div>
+              {promptSize && <div className="error">Please select a size</div>}
               <div className="sizes">
                 {category === 'Jeans' ? (
-                  <>
-                    <button
-                      className={size === '31' ? 'active' : ''}
-                      onClick={() => setSize('31')}
-                    >
-                      31
-                    </button>
-                    <button
-                      className={size === '32' ? 'active' : ''}
-                      onClick={() => setSize('32')}
-                    >
-                      32
-                    </button>
-                    <button
-                      className={size === '33' ? 'active' : ''}
-                      onClick={() => setSize('33')}
-                    >
-                      33
-                    </button>
-                    <button
-                      className={size === '34' ? 'active' : ''}
-                      onClick={() => setSize('34')}
-                    >
-                      34
-                    </button>
-                  </>
+                  <SizePickerForBottoms
+                    currentSize={size}
+                    onSetSize={setSize}
+                  />
                 ) : (
-                  <>
-                    <button
-                      className={size === 'S' ? 'active' : ''}
-                      onClick={() => setSize('S')}
-                    >
-                      S
-                    </button>
-                    <button
-                      className={size === 'M' ? 'active' : ''}
-                      onClick={() => setSize('M')}
-                    >
-                      M
-                    </button>
-                    <button
-                      className={size === 'L' ? 'active' : ''}
-                      onClick={() => setSize('L')}
-                    >
-                      L
-                    </button>
-                    <button
-                      className={size === 'XL' ? 'active' : ''}
-                      onClick={() => setSize('XL')}
-                    >
-                      XL
-                    </button>
-                  </>
+                  <SizePickerForTops currentSize={size} onSetSize={setSize} />
                 )}
               </div>
             </div>
@@ -332,7 +318,9 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
               >
                 {isWishlisted ? 'Wishlisted' : 'Wishlist'}
               </button>
-              <button className="cart">Add to Cart</button>
+              <button className="cart" onClick={addToCartHandler}>
+                {isAddedToCart ? 'Go to Cart' : 'Add to Cart'}
+              </button>
             </div>
           </div>
         </div>
@@ -343,70 +331,9 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
             <div className="title">Size Chart</div>
             <div className="table">
               {category === 'Jeans' ? (
-                <>
-                  <table className="jeans">
-                    <tr>
-                      <th>Size</th>
-                      <th>To Fit Waist (in)</th>
-                      <th>Inseam Length (in)</th>
-                    </tr>
-                    <tr>
-                      <td>31</td>
-                      <td>31.0</td>
-                      <td>32.0</td>
-                    </tr>
-                    <tr>
-                      <td>32</td>
-                      <td>32.0</td>
-                      <td>32.0</td>
-                    </tr>
-                    <tr>
-                      <td>33</td>
-                      <td>33.0</td>
-                      <td>32.0</td>
-                    </tr>
-                    <tr>
-                      <td>34</td>
-                      <td>34.0</td>
-                      <td>32.0</td>
-                    </tr>
-                  </table>
-                </>
+                <SizeChartForBottoms />
               ) : (
-                <>
-                  <table>
-                    <tr>
-                      <th>Size</th>
-                      <th>Chest (in)</th>
-                      <th>Front Length (in)</th>
-                      <th>Across Shoulder (in)</th>
-                    </tr>
-                    <tr>
-                      <td>S</td>
-                      <td>38.0</td>
-                      <td>29.5</td>
-                      <td>18.0</td>
-                    </tr>
-                    <tr>
-                      <td>M</td>
-                      <td>41.0</td>
-                      <td>30.0</td>
-                      <td>18.5</td>
-                    </tr>
-                    <tr>
-                      <td>L</td>
-                      <td>44.0</td>
-                      <td>30.5</td>
-                      <td>19.0</td>
-                    </tr>
-                    <tr>
-                      <td>XL</td>
-                      <td>46.0</td>
-                      <td>31.0</td>
-                      <td>19.5</td>
-                    </tr>
-                  </table>
-                </>
+                <SizeChartForTops />
               )}
             </div>
           </ModalDiv>

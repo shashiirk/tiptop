@@ -1,13 +1,41 @@
 import Image from 'next/image';
 import styled from 'styled-components';
+import { doc, updateDoc, arrayRemove } from 'firebase/firestore';
 
+import { CloseIcon } from '../assets/icons';
 import BetterLink from './BetterLink';
+import { useSelector } from 'react-redux';
+import { db } from '../services/firebase-config';
 
 const Div = styled.div`
   font-size: 14px;
   border: 1px #eee solid;
 
   .item {
+    position: relative;
+
+    .delete {
+      border: 1px #ddd solid;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 10;
+      background-color: #f4f4f4;
+      color: #888;
+      cursor: pointer;
+
+      .icon {
+        width: 16px;
+        height: 16px;
+        stroke-width: 2.5px;
+      }
+    }
+
     a {
       text-decoration: none;
       color: inherit;
@@ -47,10 +75,21 @@ const Div = styled.div`
   }
 `;
 
-const WishlistItemCard = ({ id, imageURL, brand, name, amount }) => {
+const WishlistItemCard = ({ id, size, imageURL, brand, name, amount }) => {
+  const user = useSelector((state) => state.auth.user);
+
+  const removeItemHandler = () => {
+    updateDoc(doc(db, user.uid, 'wishlist'), {
+      items: arrayRemove({ itemId: id, itemSize: size }),
+    }).catch((error) => console.log(error));
+  };
+
   return (
     <Div>
       <div className="item">
+        <button className="delete" onClick={removeItemHandler}>
+          <CloseIcon />
+        </button>
         <BetterLink href={`/collections/${id}`}>
           <Image src={imageURL} width={220} height={275} layout="responsive" />
         </BetterLink>
