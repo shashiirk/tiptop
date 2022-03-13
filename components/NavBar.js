@@ -81,13 +81,20 @@ const Div = styled.div`
       }
     }
 
-    button {
-      background-color: white;
-      border: none;
+    .user-nav {
       border-top: 3px transparent solid;
       border-bottom: 3px transparent solid;
-      color: #999;
-      padding: 16px;
+      /* border: 1px red solid; */
+      display: flex;
+      position: relative;
+
+      button {
+        background-color: white;
+        border: none;
+        color: #999;
+        padding: 16px;
+        /* border: 1px blue solid; */
+      }
 
       &.active {
         border-bottom-color: #4a00e0;
@@ -134,15 +141,6 @@ const NavBar = () => {
         </BetterLink>
       </h1>
       <div className="box">
-        <button
-          className={`${isMenuVisible ? 'active' : ''}`}
-          onClick={toggleMenuHandler}
-        >
-          <UserIcon />
-        </button>
-        {isMenuVisible && (
-          <Menu onClose={closeMenu} onSignOut={signOutHandler} />
-        )}
         <ul className="nav-items">
           <li className="nav-item">
             <BetterLink href="/wishlist">
@@ -155,6 +153,14 @@ const NavBar = () => {
             </BetterLink>
           </li>
         </ul>
+        <div className={`user-nav ${isMenuVisible ? 'active' : ''}`}>
+          <button onClick={toggleMenuHandler}>
+            <UserIcon />
+          </button>
+          {isMenuVisible && (
+            <Menu onClose={closeMenu} onSignOut={signOutHandler} />
+          )}
+        </div>
       </div>
     </Div>
   );

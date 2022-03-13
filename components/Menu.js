@@ -11,8 +11,8 @@ const Div = styled.div`
   border-radius: 6px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
   position: absolute;
-  top: 100%;
-  right: 16px;
+  top: calc(100% + 3px);
+  right: -6px;
   z-index: 10;
   font-size: 14px;
   width: 240px;
