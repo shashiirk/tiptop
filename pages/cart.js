@@ -142,7 +142,7 @@ const Cart = () => {
   }, [cartCtx.items]);
 
   const priceValue = clothes.reduce((prev, cur) => prev + +cur.amount, 0);
-  const discountValue = Math.floor(priceValue / 15);
+  const discountValue = Math.floor(priceValue / 5);
   const totalValue = priceValue - discountValue;
 
   return (
@@ -155,7 +155,7 @@ const Cart = () => {
           <Div>
             <div className="cart">
               <div className="title">
-                Cart <span>({CLOTHES.length} items)</span>
+                Cart <span>({clothes.length} items)</span>
               </div>
               <div className="clothes">
                 {clothes.map((item) => (

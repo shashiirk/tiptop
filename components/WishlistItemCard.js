@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { doc, updateDoc, arrayRemove } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
 import { CloseIcon } from '../assets/icons';
 import BetterLink from './BetterLink';
 import { useSelector } from 'react-redux';
 import { db } from '../services/firebase-config';
+import Modal from './Modal';
+import SizePickerForBottoms from './SizePickerForBottoms';
+import SizePickerForTops from './SizePickerForTops';
 
 const Div = styled.div`
   font-size: 14px;
@@ -24,7 +28,7 @@ const Div = styled.div`
       position: absolute;
       top: 8px;
       right: 8px;
-      z-index: 10;
+      z-index: 5;
       background-color: #f4f4f4;
       color: #888;
       cursor: pointer;
@@ -32,7 +36,7 @@ const Div = styled.div`
       .icon {
         width: 16px;
         height: 16px;
-        stroke-width: 2.5px;
+        stroke-width: 2px;
       }
     }
 
@@ -75,32 +79,210 @@ const Div = styled.div`
   }
 `;
 
-const WishlistItemCard = ({ id, size, imageURL, brand, name, amount }) => {
+const ModalDiv = styled.div`
+  padding: 16px;
+
+  .title {
+    color: #4a00e0;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .error {
+    margin-bottom: 16px;
+    color: #ff4646;
+  }
+
+  .sizes {
+    display: flex;
+
+    button {
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px #ddd solid;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      margin-right: 8px;
+      background-color: white;
+      cursor: pointer;
+
+      &.active {
+        border-color: #4a00e0;
+        color: #4a00e0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @media (hover: hover) {
+        transition: border 240ms;
+
+        &:hover {
+          border-color: #4a00e0;
+        }
+      }
+    }
+  }
+
+  .done {
+    font: inherit;
+    border-radius: 6px;
+    background: #8e2de2;
+    background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    color: white;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 28px;
+    border: none;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+  }
+`;
+
+const WishlistItemCard = ({
+  id,
+  size,
+  imageURL,
+  brand,
+  name,
+  amount,
+  category,
+  setImage,
+  setActivation,
+}) => {
+  const [pickedSize, setPickedSize] = useState('');
+  const [showSizePicker, setShowSizePicker] = useState(false);
+  const [promptSize, setPromptSize] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
-  const removeItemHandler = () => {
+  const openSizePickerHandler = () => {
+    setShowSizePicker(true);
+  };
+
+  const closeSizePickerHandler = () => {
+    setPickedSize('');
+    setShowSizePicker(false);
+    setPromptSize(false);
+  };
+
+  const deleteItemHandler = () => {
     updateDoc(doc(db, user.uid, 'wishlist'), {
       items: arrayRemove({ itemId: id, itemSize: size }),
     }).catch((error) => console.log(error));
   };
 
+  const removeItemHandler = () => {
+    setImage(imageURL);
+    updateDoc(doc(db, user.uid, 'wishlist'), {
+      items: arrayRemove({ itemId: id, itemSize: size }),
+    })
+      .then(() => {
+        setActivation(true);
+        setTimeout(() => {
+          setActivation(false);
+        }, 3000);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const moveToCartHandler = (ev, fromModal = false) => {
+    if (size) {
+      updateDoc(doc(db, user.uid, 'cart'), {
+        items: arrayUnion({
+          itemId: id,
+          itemSize: size,
+        }),
+      })
+        .then(() => {
+          removeItemHandler();
+        })
+        .catch((error) => console.log(error));
+    } else if (pickedSize) {
+      updateDoc(doc(db, user.uid, 'cart'), {
+        items: arrayUnion({
+          itemId: id,
+          itemSize: pickedSize,
+        }),
+      })
+        .then(() => {
+          removeItemHandler();
+        })
+        .catch((error) => console.log(error));
+    } else {
+      if (fromModal) {
+        setPromptSize(true);
+      } else {
+        openSizePickerHandler();
+      }
+    }
+  };
+
   return (
-    <Div>
-      <div className="item">
-        <button className="delete" onClick={removeItemHandler}>
-          <CloseIcon />
-        </button>
-        <BetterLink href={`/collections/${id}`}>
-          <Image src={imageURL} width={220} height={275} layout="responsive" />
-        </BetterLink>
-        <div className="info">
-          <div className="brand">{brand}</div>
-          <div className="name">{name}</div>
-          <div className="amount">{`Rs. ${amount}`}</div>
+    <>
+      <Div>
+        <div className="item">
+          <button className="delete" onClick={deleteItemHandler}>
+            <CloseIcon />
+          </button>
+          <BetterLink href={`/collections/${id}`}>
+            <Image
+              src={imageURL}
+              width={220}
+              height={275}
+              layout="responsive"
+            />
+          </BetterLink>
+          <div className="info">
+            <div className="brand">{brand}</div>
+            <div className="name">{name}</div>
+            <div className="amount">{`Rs. ${amount}`}</div>
+          </div>
         </div>
-      </div>
-      <button className="cart">Move to Cart</button>
-    </Div>
+        <button className="cart" onClick={moveToCartHandler}>
+          Move to Cart
+        </button>
+      </Div>
+      {showSizePicker && (
+        <Modal closeHandler={closeSizePickerHandler}>
+          <ModalDiv>
+            <div className="title">Select size</div>
+            {promptSize && <div className="error">Please select a size</div>}
+            <div className="sizes">
+              {category === 'Jeans' ? (
+                <SizePickerForBottoms
+                  currentSize={pickedSize}
+                  onSetSize={setPickedSize}
+                />
+              ) : (
+                <SizePickerForTops
+                  currentSize={pickedSize}
+                  onSetSize={setPickedSize}
+                />
+              )}
+            </div>
+            <button
+              className="done"
+              onClick={moveToCartHandler.bind(this, true)}
+            >
+              Done
+            </button>
+          </ModalDiv>
+        </Modal>
+      )}
+    </>
   );
 };
 

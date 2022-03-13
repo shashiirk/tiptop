@@ -9,6 +9,7 @@ const Div = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  z-index: 10;
 
   .backdrop {
     position: fixed;
@@ -16,7 +17,6 @@ const Div = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 20;
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
   }
@@ -30,7 +30,7 @@ const Div = styled.div`
     border-radius: 10px;
     z-index: 30;
 
-    button {
+    .close {
       border: 1px transparent solid;
       border-radius: 50%;
       background-color: white;
@@ -49,7 +49,7 @@ const Modal = ({ closeHandler, children }) => {
     <Div>
       <div className="backdrop" onClick={closeHandler}></div>
       <div className="modal">
-        <button onClick={closeHandler}>
+        <button className="close" onClick={closeHandler}>
           <CloseIcon />
         </button>
         {children}
