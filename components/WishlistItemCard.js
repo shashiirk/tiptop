@@ -86,7 +86,7 @@ const ModalDiv = styled.div`
     color: #4a00e0;
     font-size: 18px;
     font-weight: 500;
-    margin-bottom: 16px;
+    margin-bottom: 32px;
   }
 
   .error {
@@ -143,7 +143,7 @@ const ModalDiv = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 16px;
+    margin-top: 32px;
     outline: none;
     cursor: pointer;
     padding: 14px 28px;

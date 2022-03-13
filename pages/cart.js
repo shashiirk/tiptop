@@ -135,7 +135,10 @@ const Cart = () => {
   useEffect(() => {
     const items = cartCtx.items.map((item) => {
       const itemDetails = getItemById(item.itemId);
-      return { size: item.itemSize, ...itemDetails };
+      return {
+        size: item.itemSize,
+        ...itemDetails,
+      };
     });
 
     setClothes(items);

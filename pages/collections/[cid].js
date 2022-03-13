@@ -275,6 +275,10 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
     }
   };
 
+  const goToCartHandler = () => {
+    router.push('/cart');
+  };
+
   return (
     <>
       <MainNav>
@@ -318,7 +322,10 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
               >
                 {isWishlisted ? 'Wishlisted' : 'Wishlist'}
               </button>
-              <button className="cart" onClick={addToCartHandler}>
+              <button
+                className="cart"
+                onClick={isAddedToCart ? goToCartHandler : addToCartHandler}
+              >
                 {isAddedToCart ? 'Go to Cart' : 'Add to Cart'}
               </button>
             </div>
