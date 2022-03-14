@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 
 import EmptyCart from '../components/EmptyCart';
 import CartItemCard from '../components/CartItemCard';
 import SignInPromptTemplate from '../components/SignInPromptTemplate';
 import getItemById from '../utils/getItemById';
+import OrderPlaced from '../components/OrderPlaced';
+import { db } from '../services/firebase-config';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
@@ -45,6 +48,15 @@ const CLOTHES = [
     amount: '2400',
   },
 ];
+
+const rotation = keyframes`
+  from {
+        transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }    
+`;
 
 const Div = styled.div`
   padding: 16px;
@@ -102,14 +114,27 @@ const Div = styled.div`
         color: white;
         font-size: 16px;
         font-weight: 500;
-        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
+        height: 48px;
         outline: none;
         cursor: pointer;
         padding: 14px 28px;
         margin-top: 32px;
         border: none;
         box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+
+        .loader {
+          width: 18px;
+          height: 18px;
+          border: 2px solid #fff;
+          border-bottom-color: transparent;
+          border-radius: 50%;
+          display: block;
+          animation: ${rotation} 1s linear infinite;
+        }
       }
     }
   }
@@ -128,6 +153,9 @@ const Div = styled.div`
 
 const Cart = () => {
   const [clothes, setClothes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.items);
 
@@ -140,61 +168,95 @@ const Cart = () => {
       };
     });
 
-    setClothes(items);
+    setClothes(() => {
+      setIsLoading(false);
+      return items;
+    });
   }, [cartItems]);
 
   const priceValue = clothes.reduce((prev, cur) => prev + +cur.amount, 0);
   const discountValue = Math.floor(priceValue / 5);
   const totalValue = priceValue - discountValue;
 
+  const placeOrderHandler = () => {
+    setIsPlacingOrder(true);
+    addDoc(collection(db, 'orders'), {
+      items: cartItems,
+      totalPrice: totalValue,
+    }).then(() => {
+      setIsOrderPlaced(true);
+
+      updateDoc(doc(db, user.uid, 'cart'), {
+        items: [],
+      }).then(() => {
+        setIsPlacingOrder(false);
+      });
+    });
+  };
+
   return (
     <>
       <MainNav>
         <Link href="/">Home</Link> / <span>Cart</span>
       </MainNav>
-      {user ? (
-        clothes.length > 0 ? (
-          <Div>
-            <div className="cart">
-              <div className="title">
-                Cart <span>({clothes.length} items)</span>
-              </div>
-              <div className="clothes">
-                {clothes.map((item) => (
-                  <CartItemCard key={item.id} {...item} />
-                ))}
-              </div>
-            </div>
-            <div className="checkout">
-              <div className="title">Price details</div>
-              <div className="basic">
-                <div className="price">
-                  <div className="title">Price</div>
-                  <div className="amount">Rs. {priceValue}</div>
-                </div>
-                <div className="discount">
-                  <div className="title">Discount</div>
-                  <div className="amount">- Rs. {discountValue}</div>
-                </div>
-                <div className="shipping">
-                  <div className="title">Shipping</div>
-                  <div className="amount">FREE</div>
-                </div>
-              </div>
-              <div className="total">
-                <div className="final">
-                  <div className="title">Total Amount</div>
-                  <div className="amount">Rs. {totalValue}</div>
-                </div>
-                <button className="order">Place Order</button>
-              </div>
-            </div>
-          </Div>
-        ) : (
-          <EmptyCart />
-        )
+      {isOrderPlaced ? (
+        <OrderPlaced />
       ) : (
-        <SignInPromptTemplate type="cart" />
+        !isLoading &&
+        (user ? (
+          clothes.length > 0 ? (
+            <Div>
+              <div className="cart">
+                <div className="title">
+                  Cart <span>({clothes.length} items)</span>
+                </div>
+                <div className="clothes">
+                  {clothes.map((item) => (
+                    <CartItemCard key={item.id} {...item} />
+                  ))}
+                </div>
+              </div>
+              <div className="checkout">
+                <div className="title">Price details</div>
+                <div className="basic">
+                  <div className="price">
+                    <div className="title">Price</div>
+                    <div className="amount">Rs. {priceValue}</div>
+                  </div>
+                  <div className="discount">
+                    <div className="title">Discount</div>
+                    <div className="amount">- Rs. {discountValue}</div>
+                  </div>
+                  <div className="shipping">
+                    <div className="title">Shipping</div>
+                    <div className="amount">FREE</div>
+                  </div>
+                </div>
+                <div className="total">
+                  <div className="final">
+                    <div className="title">Total Amount</div>
+                    <div className="amount">Rs. {totalValue}</div>
+                  </div>
+                  <button
+                    className="order"
+                    onClick={placeOrderHandler}
+                    disabled={isPlacingOrder}
+                  >
+                    {isPlacingOrder ? (
+                      <span className="loader"></span>
+                    ) : (
+                      'Place Order'
+                    )}
+                  </button>
+                </div>
+              </div>
+            </Div>
+          ) : (
+            <EmptyCart />
+          )
+        ) : (
+          <SignInPromptTemplate type="cart" />
+        ))
       )}
     </>
   );

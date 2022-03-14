@@ -14,33 +14,74 @@ const ReactReduxFirebaseWrapper = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
+  const subscriptions = [];
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userInfo = {
-          accessToken: user.accessToken,
-          email: user.email,
-          uid: user.uid,
-        };
-        dispatch(authActions.setUser(userInfo));
+    const authSub = onAuthStateChanged(
+      auth,
+      (user) => {
+        if (user) {
+          const userInfo = {
+            accessToken: user.accessToken,
+            email: user.email,
+            uid: user.uid,
+          };
+          dispatch(authActions.setUser(userInfo));
 
-        onSnapshot(doc(db, user.uid, 'wishlist'), (document) => {
-          const items = document.data().items;
-          dispatch(wishlistActions.setItems(items));
+          const wishlistSub = onSnapshot(
+            doc(db, user.uid, 'wishlist'),
+            (document) => {
+              try {
+                const items = document.data().items;
+                dispatch(wishlistActions.setItems(items));
 
-          onSnapshot(doc(db, user.uid, 'cart'), (document) => {
-            const items = document.data().items;
-            dispatch(cartActions.setItems(items));
-            setIsLoading(false);
-          });
-        });
-      } else {
-        dispatch(authActions.setUser(null));
+                const cartSub = onSnapshot(
+                  doc(db, user.uid, 'cart'),
+                  (document) => {
+                    try {
+                      const items = document.data().items;
+                      dispatch(cartActions.setItems(items));
+                      setIsLoading(false);
+                    } catch (error) {
+                      setIsLoading(false);
+                    }
+                  },
+                  (error) => {
+                    setIsLoading(false);
+                  }
+                );
+
+                subscriptions.push(cartSub);
+              } catch (error) {
+                setIsLoading(false);
+              }
+            },
+            (error) => {
+              setIsLoading(false);
+            }
+          );
+
+          subscriptions.push(wishlistSub);
+        } else {
+          dispatch(authActions.setUser(null));
+          dispatch(wishlistActions.setItems([]));
+          dispatch(cartActions.setItems([]));
+          setIsLoading(false);
+        }
+      },
+      (error) => {
         setIsLoading(false);
       }
-    });
+    );
 
-    return unsubscribe;
+    subscriptions.push(authSub);
+
+    const unSubscribeAll = () => {
+      subscriptions.forEach((sub) => sub());
+      subscriptions.length = 0;
+    };
+
+    return unSubscribeAll;
   }, []);
 
   return isLoading ? <Loading /> : <>{children}</>;
