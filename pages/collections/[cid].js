@@ -92,6 +92,18 @@ const Div = styled.div`
             margin-left: 16px;
             font-size: 14px;
             cursor: pointer;
+
+            @media (hover: hover) {
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            @media (hover: none) {
+              &:active {
+                text-decoration: underline;
+              }
+            }
           }
         }
 
@@ -231,8 +243,6 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
   const user = useSelector((state) => state.auth.user);
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const cartItems = useSelector((state) => state.cart.items);
-  const wishlistCtx = useWishlist();
-  const cartCtx = useCart();
   const router = useRouter();
 
   const isWishlisted = !!wishlistItems.find((value) => value.itemId === id);

@@ -97,11 +97,11 @@ const Div = styled.div`
           width: 100%;
           padding: 13px 16px;
           outline: none;
-          border: 1px #ddd solid;
+          border: 1px #ccc solid;
           border-radius: 6px;
 
           &::placeholder {
-            color: #bbb;
+            color: #aaa;
           }
 
           &:focus {
@@ -167,6 +167,18 @@ const Div = styled.div`
       a {
         text-decoration: none;
         color: #4a00e0;
+
+        @media (hover: hover) {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        @media (hover: none) {
+          &:active {
+            text-decoration: underline;
+          }
+        }
       }
     }
   }
