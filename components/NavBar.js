@@ -56,8 +56,6 @@ const Div = styled.div`
       align-items: center;
 
       .nav-item {
-        /* border: 1px blue solid; */
-        color: #999;
         display: flex;
         align-items: center;
         padding: 8px;
@@ -69,14 +67,6 @@ const Div = styled.div`
         a {
           text-decoration: none;
           color: inherit;
-
-          @media (hover: hover) {
-            transition: color 240ms;
-
-            &:hover {
-              color: #4a00e0;
-            }
-          }
         }
       }
     }
@@ -91,7 +81,6 @@ const Div = styled.div`
       button {
         background-color: white;
         border: none;
-        color: #999;
         padding: 16px;
         /* border: 1px blue solid; */
       }

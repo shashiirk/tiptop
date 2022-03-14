@@ -15,7 +15,7 @@ const Div = styled.div`
   right: -6px;
   z-index: 10;
   font-size: 14px;
-  width: 240px;
+  width: 250px;
 
   .special {
     padding: 8px 58px 8px 16px;
