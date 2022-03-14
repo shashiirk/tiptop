@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import EmptyCart from '../components/EmptyCart';
 import CartItemCard from '../components/CartItemCard';
-import { useCart } from '../store/CartContext';
 import SignInPromptTemplate from '../components/SignInPromptTemplate';
 import getItemById from '../utils/getItemById';
 
@@ -130,10 +129,10 @@ const Div = styled.div`
 const Cart = () => {
   const [clothes, setClothes] = useState([]);
   const user = useSelector((state) => state.auth.user);
-  const cartCtx = useCart();
+  const cartItems = useSelector((state) => state.cart.items);
 
   useEffect(() => {
-    const items = cartCtx.items.map((item) => {
+    const items = cartItems.map((item) => {
       const itemDetails = getItemById(item.itemId);
       return {
         size: item.itemSize,
@@ -142,7 +141,7 @@ const Cart = () => {
     });
 
     setClothes(items);
-  }, [cartCtx.items]);
+  }, [cartItems]);
 
   const priceValue = clothes.reduce((prev, cur) => prev + +cur.amount, 0);
   const discountValue = Math.floor(priceValue / 5);

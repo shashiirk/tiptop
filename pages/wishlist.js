@@ -6,7 +6,6 @@ import Image from 'next/image';
 import EmptyWishlist from '../components/EmptyWishlist';
 import SignInPromptTemplate from '../components/SignInPromptTemplate';
 import WishlistItemCard from '../components/WishlistItemCard';
-import { useWishlist } from '../store/WishlistContext';
 import getItemById from '../utils/getItemById';
 import { useSelector } from 'react-redux';
 
@@ -109,16 +108,16 @@ const Wishlist = () => {
   const [activateNotification, setActivateNotification] = useState(false);
   const [imageToBeNotified, setImageToBeNotified] = useState('');
   const user = useSelector((state) => state.auth.user);
-  const wishlistCtx = useWishlist();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   useEffect(() => {
-    const items = wishlistCtx.items.map((item) => {
+    const items = wishlistItems.map((item) => {
       const itemDetails = getItemById(item.itemId);
       return { size: item.itemSize, ...itemDetails };
     });
 
     setClothes(items);
-  }, [wishlistCtx.items]);
+  }, [wishlistItems]);
 
   return (
     <>

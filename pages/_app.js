@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import store from '../store';
 import NavBar from '../components/NavBar';
 import ReactReduxFirebaseWrapper from '../components/ReactReduxFirebaseProvider';
-import { WishlistProvider } from '../store/WishlistContext';
-import { CartProvider } from '../store/CartContext';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -43,12 +41,8 @@ const MyApp = ({ Component, pageProps }) => {
       <Container>
         <Provider store={store}>
           <ReactReduxFirebaseWrapper>
-            <WishlistProvider>
-              <CartProvider>
-                <NavBar />
-                <Component {...pageProps} />
-              </CartProvider>
-            </WishlistProvider>
+            <NavBar />
+            <Component {...pageProps} />
           </ReactReduxFirebaseWrapper>
         </Provider>
       </Container>
