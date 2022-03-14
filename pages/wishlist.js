@@ -107,6 +107,7 @@ const Wishlist = () => {
   const [clothes, setClothes] = useState([]);
   const [activateNotification, setActivateNotification] = useState(false);
   const [imageToBeNotified, setImageToBeNotified] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const user = useSelector((state) => state.auth.user);
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
@@ -116,7 +117,10 @@ const Wishlist = () => {
       return { size: item.itemSize, ...itemDetails };
     });
 
-    setClothes(items);
+    setClothes(() => {
+      setIsLoading(false);
+      return items;
+    });
   }, [wishlistItems]);
 
   return (
@@ -124,29 +128,30 @@ const Wishlist = () => {
       <MainNav>
         <Link href="/">Home</Link> / <span>Wishlist</span>
       </MainNav>
-      {user ? (
-        clothes.length > 0 ? (
-          <Div>
-            <div className="title">
-              Wishlist <span>({clothes.length} items)</span>
-            </div>
-            <div className="clothes">
-              {clothes.map((item) => (
-                <WishlistItemCard
-                  key={item.id}
-                  {...item}
-                  setImage={setImageToBeNotified}
-                  setActivation={setActivateNotification}
-                />
-              ))}
-            </div>
-          </Div>
+      {!isLoading &&
+        (user ? (
+          clothes.length > 0 ? (
+            <Div>
+              <div className="title">
+                Wishlist <span>({clothes.length} items)</span>
+              </div>
+              <div className="clothes">
+                {clothes.map((item) => (
+                  <WishlistItemCard
+                    key={item.id}
+                    {...item}
+                    setImage={setImageToBeNotified}
+                    setActivation={setActivateNotification}
+                  />
+                ))}
+              </div>
+            </Div>
+          ) : (
+            <EmptyWishlist />
+          )
         ) : (
-          <EmptyWishlist />
-        )
-      ) : (
-        <SignInPromptTemplate type="wishlist" />
-      )}
+          <SignInPromptTemplate type="wishlist" />
+        ))}
       <Notification
         className={`notification ${activateNotification ? 'activate' : ''}`}
       >
