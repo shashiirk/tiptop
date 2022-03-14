@@ -10,6 +10,7 @@ import { db } from '../services/firebase-config';
 import Modal from './Modal';
 import SizePickerForBottoms from './SizePickerForBottoms';
 import SizePickerForTops from './SizePickerForTops';
+import { getFormattedCurrency } from '../utils/getFormattedCurrency';
 
 const Div = styled.div`
   font-size: 14px;
@@ -248,7 +249,9 @@ const WishlistItemCard = ({
           <div className="info">
             <div className="brand">{brand}</div>
             <div className="name">{name}</div>
-            <div className="amount">{`Rs. ${amount}`}</div>
+            <div className="amount">{`Rs. ${getFormattedCurrency(
+              amount
+            )}`}</div>
           </div>
         </div>
         <button className="cart" onClick={moveToCartHandler}>

@@ -16,6 +16,7 @@ import SizePickerForTops from '../../components/SizePickerForTops';
 import SizePickerForBottoms from '../../components/SizePickerForBottoms';
 import SizeChartForTops from '../../components/SizeChartForTops';
 import SizeChartForBottoms from '../../components/SizeChartForBottoms';
+import { getFormattedCurrency } from '../../utils/getFormattedCurrency';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
@@ -228,13 +229,15 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [promptSize, setPromptSize] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const cartItems = useSelector((state) => state.cart.items);
   const wishlistCtx = useWishlist();
   const cartCtx = useCart();
   const router = useRouter();
 
-  const isWishlisted = !!wishlistCtx.items.find((value) => value.itemId === id);
+  const isWishlisted = !!wishlistItems.find((value) => value.itemId === id);
 
-  const isAddedToCart = !!cartCtx.items.find((value) => value.itemId === id);
+  const isAddedToCart = !!cartItems.find((value) => value.itemId === id);
 
   const openSizeChartHandler = () => {
     setShowSizeChart(true);
@@ -294,7 +297,9 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
           <div className="info">
             <div className="brand">{brand}</div>
             <div className="name">{name}</div>
-            <div className="amount">{`Rs. ${amount}`}</div>
+            <div className="amount">{`Rs. ${getFormattedCurrency(
+              amount
+            )}`}</div>
             <div className="size-box">
               <div className="head">
                 <div className="title">Select Size</div>
