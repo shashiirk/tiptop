@@ -162,7 +162,6 @@ const WishlistItemCard = ({
   amount,
   category,
   setImage,
-  setActivation,
 }) => {
   const [pickedSize, setPickedSize] = useState('');
   const [showSizePicker, setShowSizePicker] = useState(false);
@@ -186,15 +185,16 @@ const WishlistItemCard = ({
   };
 
   const removeItemHandler = () => {
-    setImage(imageURL);
+    // setImage(imageURL);
     updateDoc(doc(db, user.uid, 'wishlist'), {
       items: arrayRemove({ itemId: id, itemSize: size }),
     })
       .then(() => {
-        setActivation(true);
-        setTimeout(() => {
-          setActivation(false);
-        }, 3000);
+        // setActivation(true);
+        // setTimeout(() => {
+        //   setActivation(false);
+        // }, 3000);
+        setImage(imageURL);
       })
       .catch((error) => console.log(error));
   };

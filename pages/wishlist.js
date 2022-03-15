@@ -123,6 +123,15 @@ const Wishlist = () => {
     });
   }, [wishlistItems]);
 
+  useEffect(() => {
+    if (imageToBeNotified) {
+      setActivateNotification(true);
+      setTimeout(() => {
+        setActivateNotification(false);
+      }, 3000);
+    }
+  }, [imageToBeNotified]);
+
   return (
     <>
       <MainNav>
@@ -141,7 +150,6 @@ const Wishlist = () => {
                     key={item.id}
                     {...item}
                     setImage={setImageToBeNotified}
-                    setActivation={setActivateNotification}
                   />
                 ))}
               </div>
