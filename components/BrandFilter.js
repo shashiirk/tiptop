@@ -23,6 +23,11 @@ const Div = styled.div`
       font-size: 14px;
     }
   }
+
+  @media (max-width: 640px) {
+    margin-top: 0;
+    margin-right: 32px;
+  }
 `;
 
 // const BRANDS = ['Abercrombie & Fitch', 'American Eagle', 'Hollister', 'Zara'];

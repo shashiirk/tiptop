@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { CheckIcon } from '../assets/icons';
@@ -30,9 +30,21 @@ const Button = styled.button`
 `;
 
 const CheckBox = ({ of, type }) => {
+  const filters = useSelector((state) => state.filter);
   const [isChecked, setIsChecked] = useState(false);
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (type === 'brand') {
+      if (filters.brands.includes(of)) {
+        setIsChecked(true);
+      }
+    } else if (type === 'category') {
+      if (filters.categories.includes(of)) {
+        setIsChecked(true);
+      }
+    }
+  }, []);
 
   const clickHandler = () => {
     if (isChecked) {

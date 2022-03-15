@@ -5,8 +5,8 @@ import { getFormattedCurrency } from '../utils/getFormattedCurrency';
 import BetterLink from './BetterLink';
 
 const Div = styled.div`
-  font-size: 14px;
   border: 1px #eee solid;
+  font-size: 14px;
 
   a {
     text-decoration: none;
@@ -21,7 +21,6 @@ const Div = styled.div`
     }
 
     .name {
-      /* font-size: 14px; */
       color: #777;
       margin: 8px 0;
     }

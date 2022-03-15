@@ -23,6 +23,10 @@ const Div = styled.div`
       font-size: 14px;
     }
   }
+
+  @media (max-width: 640px) {
+    margin-top: 0;
+  }
 `;
 
 // const CATEGORIES = ['Hoodies', 'Jeans', 'Polos', 'Shirts'];
