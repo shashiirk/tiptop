@@ -118,6 +118,14 @@ const Div = styled.div`
     padding: 8px;
     width: 100%;
   }
+
+  @media (max-width: 768px) {
+    width: 340px;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 const ModalDiv = styled.div`

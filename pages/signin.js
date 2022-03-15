@@ -181,6 +181,14 @@ const Div = styled.div`
       }
     }
   }
+
+  @media (max-width: 640px) {
+    .box {
+      border: none;
+      box-shadow: none;
+      padding: 16px;
+    }
+  }
 `;
 
 const SignIn = () => {

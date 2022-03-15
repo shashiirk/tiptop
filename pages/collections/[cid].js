@@ -41,18 +41,17 @@ const Div = styled.div`
 
   .card {
     /* border: 1px #eee solid; */
-    border-radius: 12px;
-    width: fit-content;
+    /* border-radius: 12px; */
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
     /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); */
 
-    /* img {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    } */
+    .image {
+      /* border: 1px red solid; */
+      width: 330px;
+    }
 
     .info {
       /* border: 1px green solid; */
@@ -185,6 +184,51 @@ const Div = styled.div`
       }
     }
   }
+
+  @media (max-width: 640px) {
+    padding: 16px;
+
+    .card {
+      flex-direction: column;
+
+      .image {
+        width: 100%;
+      }
+
+      .info {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 0;
+
+        .brand {
+          font-size: 18px;
+          font-weight: 500;
+        }
+
+        .name {
+          color: #777;
+          margin: 8px 0;
+        }
+
+        .amount {
+          font-size: 18px;
+          font-weight: 500;
+        }
+
+        .size-box {
+          margin-top: 16px;
+        }
+
+        .actions {
+          margin-top: 24px;
+
+          button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 `;
 
 const ModalDiv = styled.div`
@@ -303,7 +347,14 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
       </MainNav>
       <Div>
         <div className="card">
-          <Image src={imageURL} width={330} height={412} />
+          <div className="image">
+            <Image
+              src={imageURL}
+              width={330}
+              height={412}
+              layout="responsive"
+            />
+          </div>
           <div className="info">
             <div className="brand">{brand}</div>
             <div className="name">{name}</div>

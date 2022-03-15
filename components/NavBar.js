@@ -56,6 +56,7 @@ const Div = styled.div`
       align-items: center;
 
       .nav-item {
+        /* border: 1px blue solid; */
         display: flex;
         align-items: center;
         padding: 8px;
@@ -87,6 +88,36 @@ const Div = styled.div`
 
       &.active {
         border-bottom-color: #4a00e0;
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .title {
+      a {
+        padding: 0;
+
+        .icon {
+          width: 38px;
+        }
+
+        p {
+          font-size: 22px;
+        }
+      }
+    }
+
+    .box {
+      .nav-items {
+        .nav-item {
+          padding: 6px;
+        }
+      }
+
+      .user-nav {
+        button {
+          padding: 10px;
+        }
       }
     }
   }

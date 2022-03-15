@@ -41,7 +41,7 @@ const Div = styled.div`
 
   .divider {
     border-bottom: 1px #eee solid;
-    margin: 8px 0 6px 0;
+    margin: 6px 0;
   }
 
   .item {

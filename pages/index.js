@@ -15,6 +15,10 @@ const Div = styled.div`
     font-size: 64px;
     font-weight: 600;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: 640px) {
+      font-size: 56px;
+    }
   }
 
   .text {

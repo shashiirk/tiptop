@@ -25,7 +25,7 @@ const Div = styled.div`
     height: 82px;
 
     .icon {
-      border: 2px #4a00e0 dotted;
+      border: 3px #4a00e0 solid;
       border-radius: 50%;
       padding: 8px;
       width: 64px;

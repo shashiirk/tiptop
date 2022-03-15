@@ -149,6 +149,20 @@ const Div = styled.div`
       font-weight: 400;
     }
   }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+
+    .cart {
+      padding: 0;
+    }
+
+    .checkout {
+      margin-top: 16px;
+      padding: 0;
+      width: 100%;
+    }
+  }
 `;
 
 const Cart = () => {
