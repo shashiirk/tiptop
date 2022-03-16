@@ -1,7 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-import { LogoIcon } from '../assets/icons';
-
 const loading = keyframes`
   0% {
     left: -30%;
@@ -22,15 +20,6 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  .logo {
-    margin-bottom: 24px;
-
-    svg {
-      width: 48px;
-      height: auto;
-    }
-  }
 
   .wrapper {
     width: 144px;
@@ -55,7 +44,6 @@ const Div = styled.div`
 const Loading = () => {
   return (
     <Div>
-      <div className="logo">{/* <LogoIcon /> */}</div>
       <div className="wrapper">
         <div className="bar"></div>
       </div>
