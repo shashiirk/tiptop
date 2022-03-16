@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import Head from 'next/head';
 
 const Div = styled.div`
   margin: auto;
@@ -44,11 +45,16 @@ const Error = () => {
   };
 
   return (
-    <Div>
-      <h1>404.</h1>
-      <p>The page you're looking for cannot be found.</p>
-      <button onClick={goHomeHandler}>Go Home</button>
-    </Div>
+    <>
+      <Head>
+        <title>Page not found</title>
+      </Head>
+      <Div>
+        <h1>404.</h1>
+        <p>The page you're looking for cannot be found.</p>
+        <button onClick={goHomeHandler}>Go Home</button>
+      </Div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/router';
@@ -252,6 +253,9 @@ const SignIn = () => {
 
   return (
     <>
+      <Head>
+        <title>Sign In</title>
+      </Head>
       <MainNav>
         <Link href="/">Home</Link> / <span>Sign In</span>
       </MainNav>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -105,143 +106,6 @@ const Div = styled.div`
   }
 `;
 
-// const CLOTHES = [
-//   {
-//     id: '2426',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Shirt_1.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Shirt',
-//     name: 'Navy Oxford Shirt',
-//     amount: '2255',
-//   },
-//   {
-//     id: '2427',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Shirt_2.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Shirt',
-//     name: 'White Oxford Shirt',
-//     amount: '2255',
-//   },
-//   {
-//     id: '2428',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Shirt_3.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Shirt',
-//     name: 'Blue Poplin Shirt',
-//     amount: '2255',
-//   },
-//   {
-//     id: '2429',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Shirt_4.jpg?alt=media',
-//     brand: 'Hollister',
-//     name: 'Red Poplin Shirt',
-//     amount: '2255',
-//   },
-//   {
-//     id: '2430',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Shirt_5.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Shirt',
-//     name: 'White Pattern Shirt',
-//     amount: '1455',
-//   },
-//   {
-//     id: '2431',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Hoodie_1.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Hoodie',
-//     name: 'Gray Colorblock Hoodie',
-//     amount: '2400',
-//   },
-//   {
-//     id: '2432',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Hoodie_2.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Hoodie',
-//     name: 'Pink Icon Hoodie',
-//     amount: '2400',
-//   },
-//   {
-//     id: '2433',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Hoodie_3.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Hoodie',
-//     name: 'Navy Tie-Dye Icon Hoodie',
-//     amount: '2550',
-//   },
-//   {
-//     id: '2434',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Hoodie_4.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Hoodie',
-//     name: 'Navy Colorblock Hoodie',
-//     amount: '2400',
-//   },
-//   {
-//     id: '2435',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Polo_1.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Polo',
-//     name: 'Burgundy Icon Polo',
-//     amount: '1450',
-//   },
-//   {
-//     id: '2436',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Polo_2.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Polo',
-//     name: 'Black Mint Icon Polo',
-//     amount: '1450',
-//   },
-//   {
-//     id: '2437',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Polo_3.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Polo',
-//     name: 'Pink Icon Polo',
-//     amount: '1450',
-//   },
-//   {
-//     id: '2438',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Jeans_1.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Jeans',
-//     name: 'Black Skinny Jeans',
-//     amount: '2600',
-//   },
-//   {
-//     id: '2439',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Jeans_2.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Jeans',
-//     name: 'Light Wash Skinny Jeans',
-//     amount: '2600',
-//   },
-//   {
-//     id: '2440',
-//     imageURL:
-//       'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Jeans_3.jpg?alt=media',
-//     brand: 'Hollister',
-//     category: 'Jeans',
-//     name: 'Wash Skinny Jeans',
-//     amount: '2980',
-//   },
-// ];
-
 const Products = ({ clothes, brands, categories }) => {
   const [width, setWidth] = useState(window.innerWidth);
   const filteredBrands = useSelector((state) => state.filter.brands);
@@ -279,6 +143,9 @@ const Products = ({ clothes, brands, categories }) => {
 
   return (
     <>
+      <Head>
+        <title>Collections</title>
+      </Head>
       <MainNav>
         <Link href="/">Home</Link> / <span>Collections</span>
       </MainNav>

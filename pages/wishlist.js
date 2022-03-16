@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
+import Head from 'next/head';
 import Image from 'next/image';
 
 import EmptyWishlist from '../components/EmptyWishlist';
@@ -152,6 +153,9 @@ const Wishlist = () => {
 
   return (
     <>
+      <Head>
+        <title>Wishlist</title>
+      </Head>
       <MainNav>
         <Link href="/">Home</Link> / <span>Wishlist</span>
       </MainNav>

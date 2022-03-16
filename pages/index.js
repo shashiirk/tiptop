@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Head from 'next/head';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -43,11 +44,16 @@ const Div = styled.div`
 
 const Home = () => {
   return (
-    <Div>
-      <p className="title">Wear better, look better.</p>
-      <p className="text">Don't you just love being in apparel?</p>
-      <Link href="/collections">Shop Now</Link>
-    </Div>
+    <>
+      <Head>
+        <title>Online Shopping for Men - Tiptop</title>
+      </Head>
+      <Div>
+        <p className="title">Wear better, look better.</p>
+        <p className="text">Don't you just love being in apparel?</p>
+        <Link href="/collections">Shop Now</Link>
+      </Div>
+    </>
   );
 };
 

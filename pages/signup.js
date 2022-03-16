@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -275,6 +276,9 @@ const SignUp = () => {
 
   return (
     <>
+      <Head>
+        <title>Sign Up</title>
+      </Head>
       <MainNav>
         <Link href="/">Home</Link> / <span>Sign Up</span>
       </MainNav>
