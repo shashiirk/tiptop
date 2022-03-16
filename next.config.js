@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ['www.hollisterindiaonline.com', 'firebasestorage.googleapis.com'],
+    domains: ['firebasestorage.googleapis.com'],
   },
 };
 
