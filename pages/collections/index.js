@@ -10,6 +10,7 @@ import SortSelect from '../../components/SortSelect';
 import getItems from '../../utils/getItems';
 import SmallSort from '../../components/SmallSort';
 import SmallFilter from '../../components/SmallFilter';
+import EmptyResults from '../../components/EmptyResults';
 
 const MainNav = styled.div`
   /* border: 1px green solid; */
@@ -48,6 +49,8 @@ const Div = styled.div`
     /* border: 1px green solid; */
     width: 100%;
     padding: 16px;
+    display: flex;
+    flex-direction: column;
 
     .top {
       /* border: 1px green solid; */
@@ -299,11 +302,15 @@ const Products = ({ clothes, brands, categories }) => {
               </div>
             )}
           </div>
-          <div className="clothes">
-            {filteredClothes.map((item) => (
-              <ItemCard key={item.id} {...item} />
-            ))}
-          </div>
+          {filteredClothes.length > 0 ? (
+            <div className="clothes">
+              {filteredClothes.map((item) => (
+                <ItemCard key={item.id} {...item} />
+              ))}
+            </div>
+          ) : (
+            <EmptyResults />
+          )}
         </main>
       </Div>
     </>

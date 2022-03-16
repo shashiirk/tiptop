@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { CartIcon } from '../assets/icons';
+import { FilterIcon } from '../assets/icons';
 
 const Div = styled.div`
   /* background-color: #f6f6f6; */
@@ -24,8 +24,7 @@ const Div = styled.div`
       width: 32px;
       height: 32px;
 
-      path,
-      line {
+      path {
         stroke-width: 1px;
       }
     }
@@ -36,15 +35,15 @@ const Div = styled.div`
   }
 `;
 
-const EmptyCart = () => {
+const EmptyResults = () => {
   return (
     <Div>
       <div className="round">
-        <CartIcon />
+        <FilterIcon />
       </div>
-      <p className="text">Your cart is empty</p>
+      <p className="text">No results found</p>
     </Div>
   );
 };
 
-export default EmptyCart;
+export default EmptyResults;

@@ -12,12 +12,12 @@ const Div = styled.div`
   padding: 16px;
 
   .round {
-    border: 1px #ddd solid;
+    border: 1px #eee solid;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 
     .icon {
       margin: 24px 24px;
