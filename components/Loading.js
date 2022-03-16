@@ -55,9 +55,7 @@ const Div = styled.div`
 const Loading = () => {
   return (
     <Div>
-      <div className="logo">
-        <LogoIcon />
-      </div>
+      <div className="logo">{/* <LogoIcon /> */}</div>
       <div className="wrapper">
         <div className="bar"></div>
       </div>
