@@ -12,7 +12,6 @@ const Div = styled.div`
   }
 
   .item {
-    /* border: 1px red solid; */
     display: flex;
     align-items: flex-start;
     margin: 8px 0;
@@ -26,10 +25,13 @@ const Div = styled.div`
 
   @media (max-width: 640px) {
     margin-top: 0;
+
+    .item {
+      margin: 0;
+      margin-bottom: 16px;
+    }
   }
 `;
-
-// const CATEGORIES = ['Hoodies', 'Jeans', 'Polos', 'Shirts'];
 
 const CategoryFilter = ({ items }) => {
   return (

@@ -3,7 +3,6 @@ import Head from 'next/head';
 import styled from 'styled-components';
 
 const Div = styled.div`
-  /* background-color: #f6f6f6; */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -38,7 +37,7 @@ const Div = styled.div`
     background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
     background: linear-gradient(to right, #8e2de2, #4a00e0);
     color: white;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 `;
 

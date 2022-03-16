@@ -1,13 +1,15 @@
 <p align="center">
-  <a href="">
+  <a href="https://tiptopstore.vercel.app">
     <img alt="logo" src="public/logo.svg" width="60" />
   </a>
+  <h1>
+    Tiptop
+  </h1>
 </p>
-<h1 align="center">
-  Tiptop
-</h1>
 
 ## Description
+
+An online shopping application built using Next.js and Firebase.
 
 ## Preview
 
@@ -15,12 +17,20 @@
 
 ## Live Demo
 
-See it live [here]().
+See it live [here](https://tiptopstore.vercel.app).
 
 ## Features
 
+- Authentication
+- Wishlist items
+- Add items to cart
+- Sort items
+- Filter items
+- Real-time updates
+
 ## Tools
 
+- [Next.js](https://nextjs.org)
 - [React](https://reactjs.org)
 - [Styled components](https://www.styled-components.com)
 - [Firebase](https://firebase.google.com)

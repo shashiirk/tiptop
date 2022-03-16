@@ -42,7 +42,6 @@ const fade = keyframes`
 `;
 
 const MainNav = styled.div`
-  /* border: 1px green solid; */
   font-size: 14px;
   background-color: #f4f4f4;
   padding: 16px;

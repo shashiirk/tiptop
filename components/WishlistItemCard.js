@@ -54,7 +54,6 @@ const Div = styled.div`
       }
 
       .name {
-        /* font-size: 14px; */
         color: #777;
         margin: 8px 0;
       }
@@ -149,7 +148,7 @@ const ModalDiv = styled.div`
     cursor: pointer;
     padding: 14px 28px;
     border: none;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -185,15 +184,10 @@ const WishlistItemCard = ({
   };
 
   const removeItemHandler = () => {
-    // setImage(imageURL);
     updateDoc(doc(db, user.uid, 'wishlist'), {
       items: arrayRemove({ itemId: id, itemSize: size }),
     })
       .then(() => {
-        // setActivation(true);
-        // setTimeout(() => {
-        //   setActivation(false);
-        // }, 3000);
         setImage(imageURL);
       })
       .catch((error) => console.log(error));

@@ -23,7 +23,6 @@ const Div = styled.div`
     position: relative;
 
     a {
-      /* border: 1px green solid; */
       text-decoration: none;
       color: inherit;
       display: block;
@@ -38,7 +37,6 @@ const Div = styled.div`
       }
 
       .name {
-        /* font-size: 14px; */
         color: #777;
         margin-top: 8px;
       }
@@ -194,7 +192,7 @@ const ModalDiv = styled.div`
     cursor: pointer;
     padding: 14px 28px;
     border: none;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 `;
 

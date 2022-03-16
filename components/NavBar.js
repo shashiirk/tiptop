@@ -8,7 +8,6 @@ import Menu from './Menu';
 import { auth } from '../services/firebase-config';
 
 const Div = styled.div`
-  /* border-bottom: 1px #374e62 solid; */
   display: flex;
   align-items: stretch;
   justify-content: space-between;
@@ -16,7 +15,6 @@ const Div = styled.div`
   position: relative;
 
   .title {
-    /* border: 1px #374e62 solid; */
     margin: 16px 0;
     display: flex;
     justify-content: center;
@@ -31,7 +29,7 @@ const Div = styled.div`
       color: inherit;
 
       .icon {
-        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.1));
       }
 
       p {
@@ -43,20 +41,16 @@ const Div = styled.div`
   }
 
   .box {
-    /* border: 1px red solid; */
     display: flex;
     align-items: stretch;
-    /* position: relative; */
 
     .nav-items {
-      /* border: 1px green solid; */
       list-style-type: none;
       color: inherit;
       display: flex;
       align-items: center;
 
       .nav-item {
-        /* border: 1px blue solid; */
         display: flex;
         align-items: center;
         padding: 8px;
@@ -75,7 +69,6 @@ const Div = styled.div`
     .user-nav {
       border-top: 3px transparent solid;
       border-bottom: 3px transparent solid;
-      /* border: 1px red solid; */
       display: flex;
       position: relative;
 
@@ -83,7 +76,6 @@ const Div = styled.div`
         background-color: white;
         border: none;
         padding: 16px;
-        /* border: 1px blue solid; */
       }
 
       &.active {

@@ -25,14 +25,14 @@ const ModalDiv = styled.div`
     color: #4a00e0;
     font-size: 18px;
     font-weight: 500;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 
   .items {
     .item {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
 
       .text {
         margin: 0;

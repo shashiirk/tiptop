@@ -14,7 +14,6 @@ import SmallFilter from '../../components/SmallFilter';
 import EmptyResults from '../../components/EmptyResults';
 
 const MainNav = styled.div`
-  /* border: 1px green solid; */
   font-size: 14px;
   background-color: #f4f4f4;
   padding: 16px;
@@ -31,12 +30,10 @@ const MainNav = styled.div`
 `;
 
 const Div = styled.div`
-  /* border: 1px red solid; */
   flex: 1;
   display: flex;
 
   .aside {
-    /* border: 1px blue solid; */
     width: 300px;
     padding: 16px;
 
@@ -47,14 +44,12 @@ const Div = styled.div`
   }
 
   .main {
-    /* border: 1px green solid; */
     width: 100%;
     padding: 16px;
     display: flex;
     flex-direction: column;
 
     .top {
-      /* border: 1px green solid; */
       display: flex;
 
       .title {
@@ -94,7 +89,6 @@ const Div = styled.div`
         align-items: center;
 
         .sort-filter {
-          /* border: 1px green solid; */
           display: flex;
         }
       }

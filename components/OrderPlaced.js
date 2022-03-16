@@ -12,15 +12,12 @@ const Div = styled.div`
   padding: 16px;
 
   .round {
-    border: 1px #ddd solid;
+    border: 1px #eee solid;
     border-radius: 50%;
-    /* background: #8e2de2;
-    background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
-    background: linear-gradient(to right, #8e2de2, #4a00e0); */
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     width: 82px;
     height: 82px;
 
@@ -57,7 +54,7 @@ const Div = styled.div`
     font-weight: 500;
     border: none;
     border-radius: 10px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 `;
 

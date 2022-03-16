@@ -32,7 +32,7 @@ const Div = styled.div`
     background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
     background: linear-gradient(to right, #8e2de2, #4a00e0);
     color: white;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
   }
 `;

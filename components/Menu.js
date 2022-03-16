@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useRouter } from 'next/router';
-// import { signOut } from 'firebase/auth';
 
 const Div = styled.div`
   border: 1px #eee solid;

@@ -38,13 +38,8 @@ const RoundBox = ({ of }) => {
   }, [filters.sort]);
 
   const clickHandler = () => {
-    if (isChecked) {
-      dispatch(filterActions.chooseSort('default'));
-    } else {
-      dispatch(filterActions.chooseSort(of));
-    }
-
-    setIsChecked((prevValue) => !prevValue);
+    dispatch(filterActions.chooseSort(of));
+    setIsChecked(true);
   };
 
   return (

@@ -11,7 +11,6 @@ import { validateEmail, validatePassword } from '../utils/formValidation';
 import { auth } from '../services/firebase-config';
 
 const MainNav = styled.div`
-  /* border: 1px green solid; */
   font-size: 14px;
   background-color: #f4f4f4;
   padding: 16px;
@@ -37,7 +36,6 @@ const rotation = keyframes`
 `;
 
 const Div = styled.div`
-  /* background-color: #f6f6f6; */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -144,7 +142,7 @@ const Div = styled.div`
         cursor: pointer;
         padding: 14px 28px;
         border: none;
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
         .loader {
           width: 18px;

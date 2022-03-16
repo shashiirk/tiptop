@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { FilterIcon } from '../assets/icons';
 
 const Div = styled.div`
-  /* background-color: #f6f6f6; */
   flex: 1;
   display: flex;
   flex-direction: column;

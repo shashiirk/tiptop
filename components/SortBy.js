@@ -1,10 +1,6 @@
-import { useSelector } from 'react-redux';
-
 import RoundBox from './RoundBox';
 
 const SortBy = () => {
-  // const filters = useSelector((state) => state.filter);
-
   return (
     <div className="items">
       <div className="item">

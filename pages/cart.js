@@ -13,7 +13,6 @@ import OrderPlaced from '../components/OrderPlaced';
 import { db } from '../services/firebase-config';
 
 const MainNav = styled.div`
-  /* border: 1px green solid; */
   font-size: 14px;
   background-color: #f4f4f4;
   padding: 16px;
@@ -28,27 +27,6 @@ const MainNav = styled.div`
     color: #999;
   }
 `;
-
-const CLOTHES = [
-  {
-    id: '2430',
-    imageURL:
-      'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Shirt_5.jpg?alt=media',
-    brand: 'Hollister',
-    category: 'Shirt',
-    name: 'White Pattern Shirt',
-    amount: '1455',
-  },
-  {
-    id: '2431',
-    imageURL:
-      'https://firebasestorage.googleapis.com/v0/b/tiptop-store.appspot.com/o/Hollister_Hoodie_1.jpg?alt=media',
-    brand: 'Hollister',
-    category: 'Hoodie',
-    name: 'Gray Colorblock Hoodie',
-    amount: '2400',
-  },
-];
 
 const rotation = keyframes`
   from {
@@ -65,12 +43,10 @@ const Div = styled.div`
   justify-content: center;
 
   .cart {
-    /* border: 1px blue solid; */
     padding: 16px;
   }
 
   .checkout {
-    /* border: 1px blue solid; */
     padding: 16px;
     font-size: 14px;
     width: 280px;
@@ -125,7 +101,7 @@ const Div = styled.div`
         padding: 14px 28px;
         margin-top: 32px;
         border: none;
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
         .loader {
           width: 18px;

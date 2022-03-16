@@ -10,8 +10,6 @@ import getAllStaticPaths from '../../utils/getAllStaticPaths';
 import getItemById from '../../utils/getItemById';
 import Modal from '../../components/Modal';
 import { db } from '../../services/firebase-config';
-import { useWishlist } from '../../store/WishlistContext';
-import { useCart } from '../../store/CartContext';
 import SizePickerForTops from '../../components/SizePickerForTops';
 import SizePickerForBottoms from '../../components/SizePickerForBottoms';
 import SizeChartForTops from '../../components/SizeChartForTops';
@@ -19,7 +17,6 @@ import SizeChartForBottoms from '../../components/SizeChartForBottoms';
 import { getFormattedCurrency } from '../../utils/getFormattedCurrency';
 
 const MainNav = styled.div`
-  /* border: 1px green solid; */
   font-size: 14px;
   background-color: #f4f4f4;
   padding: 16px;
@@ -37,24 +34,18 @@ const MainNav = styled.div`
 
 const Div = styled.div`
   padding: 32px;
-  /* border: 1px green solid; */
 
   .card {
-    /* border: 1px #eee solid; */
-    /* border-radius: 12px; */
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); */
 
     .image {
-      /* border: 1px red solid; */
       width: 330px;
     }
 
     .info {
-      /* border: 1px green solid; */
       margin: 16px;
       padding: 16px;
 
@@ -77,7 +68,6 @@ const Div = styled.div`
         margin-top: 32px;
 
         .head {
-          /* border: 1px red solid; */
           margin-bottom: 16px;
           display: flex;
           align-items: baseline;
@@ -173,7 +163,7 @@ const Div = styled.div`
           color: white;
           padding: 14px 28px;
           margin-left: 16px;
-          box-shadow: 0 0 12px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .wishlist {

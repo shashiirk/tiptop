@@ -13,7 +13,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    /* border: 2px green solid; */
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -25,7 +24,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.div`
-  /* border: 1px red solid; */
   min-height: 100vh;
   max-width: 1440px;
   width: 100%;
