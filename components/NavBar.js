@@ -77,8 +77,14 @@ const Div = styled.div`
             justify-content: center;
             align-items: center;
             position: absolute;
-            top: 0;
-            right: 0;
+            top: -2px;
+            right: -2px;
+            z-index: 10;
+
+            @media (max-width: 640px) {
+              width: 16px;
+              height: 16px;
+            }
           }
         }
       }
