@@ -6,6 +6,7 @@ import { LogoIcon, WishlistIcon, CartIcon, UserIcon } from '../assets/icons';
 import BetterLink from './BetterLink';
 import Menu from './Menu';
 import { auth } from '../services/firebase-config';
+import { useSelector } from 'react-redux';
 
 const Div = styled.div`
   display: flex;
@@ -54,6 +55,7 @@ const Div = styled.div`
         display: flex;
         align-items: center;
         padding: 8px;
+        position: relative;
 
         &:first-child {
           margin-right: 8px;
@@ -62,6 +64,22 @@ const Div = styled.div`
         a {
           text-decoration: none;
           color: inherit;
+
+          .badge {
+            font-size: 10px;
+            font-weight: 600;
+            background-color: #4a00e0;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
         }
       }
     }
@@ -117,6 +135,8 @@ const Div = styled.div`
 
 const NavBar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
+  const cartCount = useSelector((state) => state.cart.items.length);
 
   const toggleMenuHandler = () => {
     if (isMenuVisible) {
@@ -157,11 +177,15 @@ const NavBar = () => {
           <li className="nav-item">
             <BetterLink href="/wishlist">
               <WishlistIcon />
+              {wishlistCount > 0 && (
+                <span className="badge">{wishlistCount}</span>
+              )}
             </BetterLink>
           </li>
           <li className="nav-item">
             <BetterLink href="/cart">
               <CartIcon />
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
             </BetterLink>
           </li>
         </ul>
