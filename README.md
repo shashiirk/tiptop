@@ -2,7 +2,7 @@
   <a href="https://tiptopstore.vercel.app">
     <img alt="logo" src="public/logo.svg" width="60" />
   </a>
-  <h1>
+  <h1 align="center">
     Tiptop
   </h1>
 </p>
@@ -13,7 +13,7 @@ An online shopping application built using Next.js and Firebase.
 
 ## Preview
 
-![preview]()
+![preview](https://user-images.githubusercontent.com/48406108/158732497-5a959e51-9335-4062-8c1e-7131528b3ce8.png)
 
 ## Live Demo
 
