@@ -190,6 +190,7 @@ const Wishlist = () => {
             width={33}
             height={41}
             layout="fixed"
+            priority
           />
         )}
         <p>Item added to cart successfully</p>
