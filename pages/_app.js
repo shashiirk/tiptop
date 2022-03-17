@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { Provider } from 'react-redux';
+import Head from 'next/head';
 
 import store from '../store';
 import NavBar from '../components/NavBar';
@@ -35,6 +36,9 @@ const Container = styled.div`
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
+      <Head>
+        <title>Tiptop</title>
+      </Head>
       <GlobalStyle />
       <Container>
         <Provider store={store}>
