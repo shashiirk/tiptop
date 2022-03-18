@@ -179,7 +179,7 @@ const WishlistItemCard = ({
 
   const deleteItemHandler = () => {
     updateDoc(doc(db, user.uid, 'wishlist'), {
-      items: arrayRemove({ itemId: id, itemSize: size, itemQuantity: '1' }),
+      items: arrayRemove({ itemId: id, itemSize: size }),
     }).catch((error) => console.log(error));
   };
 
