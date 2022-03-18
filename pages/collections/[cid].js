@@ -312,6 +312,7 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
           items: arrayUnion({
             itemId: id,
             itemSize: size,
+            itemQuantity: '1',
           }),
         }).catch((error) => console.log(error));
       } else {

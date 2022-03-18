@@ -155,6 +155,7 @@ const Cart = () => {
       const itemDetails = getItemById(item.itemId);
       return {
         size: item.itemSize,
+        quantity: item.itemQuantity,
         ...itemDetails,
       };
     });
@@ -165,7 +166,10 @@ const Cart = () => {
     });
   }, [cartItems]);
 
-  const priceValue = clothes.reduce((prev, cur) => prev + +cur.amount, 0);
+  const priceValue = clothes.reduce(
+    (prev, cur) => prev + +cur.amount * +cur.quantity,
+    0
+  );
   const discountValue = Math.floor(priceValue / 5);
   const totalValue = priceValue - discountValue;
 
@@ -205,8 +209,8 @@ const Cart = () => {
                   Cart <span>({clothes.length} items)</span>
                 </div>
                 <div className="clothes">
-                  {clothes.map((item) => (
-                    <CartItemCard key={item.id} {...item} />
+                  {clothes.map((item, index) => (
+                    <CartItemCard key={item.id} index={index} {...item} />
                   ))}
                 </div>
               </div>

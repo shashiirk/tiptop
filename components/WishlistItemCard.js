@@ -179,7 +179,7 @@ const WishlistItemCard = ({
 
   const deleteItemHandler = () => {
     updateDoc(doc(db, user.uid, 'wishlist'), {
-      items: arrayRemove({ itemId: id, itemSize: size }),
+      items: arrayRemove({ itemId: id, itemSize: size, itemQuantity: '1' }),
     }).catch((error) => console.log(error));
   };
 
@@ -199,6 +199,7 @@ const WishlistItemCard = ({
         items: arrayUnion({
           itemId: id,
           itemSize: size,
+          itemQuantity: '1',
         }),
       })
         .then(() => {
@@ -210,6 +211,7 @@ const WishlistItemCard = ({
         items: arrayUnion({
           itemId: id,
           itemSize: pickedSize,
+          itemQuantity: '1',
         }),
       })
         .then(() => {

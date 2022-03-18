@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -78,6 +78,15 @@ const Div = styled.div`
 
       .amount {
         font-weight: 500;
+        display: flex;
+        align-items: center;
+
+        .icon {
+          width: 14px;
+          height: 14px;
+          margin: 2px 4px 0 4px;
+          stroke-width: 2px;
+        }
       }
     }
 
@@ -174,36 +183,47 @@ const ModalDiv = styled.div`
       }
     }
   }
-
-  .done {
-    font: inherit;
-    border-radius: 6px;
-    background: #8e2de2;
-    background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
-    background: linear-gradient(to right, #8e2de2, #4a00e0);
-    color: white;
-    font-weight: 500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 32px;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 28px;
-    border: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
 `;
 
-const CartItemCard = ({ id, size, imageURL, brand, name, amount }) => {
+const CartItemCard = ({
+  index,
+  id,
+  size,
+  imageURL,
+  brand,
+  name,
+  amount,
+  quantity,
+}) => {
   const [showQuantityPicker, setShowQuantityPicker] = useState(false);
-  const [currentQuantity, setCurrentQuantity] = useState('1');
+  const [currentQuantity, setCurrentQuantity] = useState(quantity);
   const user = useSelector((state) => state.auth.user);
+  const cartItems = useSelector((state) => state.cart.items);
+
+  useEffect(() => {
+    const item = cartItems.find((item) => item.itemId === id);
+    const updatedItem = {
+      ...item,
+      itemQuantity: currentQuantity,
+    };
+    const updatedItems = [...cartItems];
+    updatedItems.splice(index, 1, updatedItem);
+    updateDoc(doc(db, user.uid, 'cart'), {
+      items: updatedItems,
+    })
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [currentQuantity]);
 
   const removeItemHandler = () => {
     updateDoc(doc(db, user.uid, 'cart'), {
-      items: arrayRemove({ itemId: id, itemSize: size }),
+      items: arrayRemove({
+        itemId: id,
+        itemSize: size,
+        itemQuantity: currentQuantity,
+      }),
     }).catch((error) => console.log(error));
   };
 
@@ -212,11 +232,6 @@ const CartItemCard = ({ id, size, imageURL, brand, name, amount }) => {
   };
 
   const closeQuantityPickerHandler = () => {
-    setCurrentQuantity('1');
-    setShowQuantityPicker(false);
-  };
-
-  const submitQuantityHandler = () => {
     setShowQuantityPicker(false);
   };
 
@@ -242,9 +257,11 @@ const CartItemCard = ({ id, size, imageURL, brand, name, amount }) => {
                 <ChevronDownIcon />
               </button>
             </div>
-            <div className="amount">{`Rs. ${getFormattedCurrency(
-              amount
-            )}`}</div>
+            <div className="amount">
+              <span>{quantity}</span>
+              <CloseIcon />
+              <span>{`Rs. ${getFormattedCurrency(amount)}`}</span>
+            </div>
           </div>
           <button className="delete" onClick={removeItemHandler}>
             <CloseIcon />
@@ -261,9 +278,6 @@ const CartItemCard = ({ id, size, imageURL, brand, name, amount }) => {
                 onSetQuantity={setCurrentQuantity}
               />
             </div>
-            <button className="done" onClick={submitQuantityHandler}>
-              Done
-            </button>
           </ModalDiv>
         </Modal>
       )}
