@@ -273,9 +273,7 @@ const SignIn = () => {
     if (isEmailValid && isPasswordValid && !serverErrorMessage) {
       setIsLoading(true);
       signInWithEmailAndPassword(auth, emailInput, passwordInput)
-        .then((user) => {
-          console.log(user);
-        })
+        .then((user) => {})
         .catch((error) => {
           const errorCode = error.code;
           console.log(errorCode);
@@ -295,12 +293,9 @@ const SignIn = () => {
   };
 
   const signInAsGuestHandler = () => {
-    console.log('clicked');
     setIsGuestLoading(true);
     signInWithEmailAndPassword(auth, 'lovelyguest@fakemail.com', 'lovelyguest')
-      .then((user) => {
-        console.log(user);
-      })
+      .then((user) => {})
       .catch((error) => {
         const errorCode = error.code;
         console.log(errorCode);
