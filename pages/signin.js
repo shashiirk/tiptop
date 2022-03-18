@@ -45,6 +45,7 @@ const Div = styled.div`
 
   p {
     line-height: 1.6;
+    text-align: center;
 
     .bold {
       font-weight: 600;
@@ -143,21 +144,64 @@ const Div = styled.div`
         padding: 14px 28px;
         border: none;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    }
 
-        .loader {
+    .loader {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #fff;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: block;
+      animation: ${rotation} 1s linear infinite;
+
+      &.small {
+        margin-left: 8px;
+        width: 14px;
+        height: 14px;
+        border: 1.5px solid #4a00e0;
+        border-bottom-color: transparent;
+      }
+    }
+
+    .ext {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        font: inherit;
+        font-size: 14px;
+        border: none;
+        outline: none;
+        background-color: white;
+        color: #4a00e0;
+        cursor: pointer;
+
+        @media (hover: hover) {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        @media (hover: none) {
+          &:active {
+            text-decoration: underline;
+          }
+        }
+
+        .icon {
+          margin-left: 3px;
           width: 18px;
           height: 18px;
-          border: 2px solid #fff;
-          border-bottom-color: transparent;
-          border-radius: 50%;
-          display: block;
-          animation: ${rotation} 1s linear infinite;
         }
       }
     }
 
     .info {
-      margin-top: 32px;
+      margin-top: 24px;
       margin-bottom: 16px;
       text-align: center;
       font-size: 14px;
@@ -197,6 +241,7 @@ const SignIn = () => {
   const [startPasswordValidation, setStartPasswordValidation] = useState(false);
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
 
   const isEmailValid = emailInput.length !== 0 && validateEmail(emailInput);
   const isPasswordValid =
@@ -247,6 +292,30 @@ const SignIn = () => {
           setIsLoading(false);
         });
     }
+  };
+
+  const signInAsGuestHandler = () => {
+    console.log('clicked');
+    setIsGuestLoading(true);
+    signInWithEmailAndPassword(auth, 'lovelyguest@fakemail.com', 'lovelyguest')
+      .then((user) => {
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log(errorCode);
+
+        if (errorCode === 'auth/user-not-found') {
+          setServerErrorMessage("Account doesn't exist.");
+        } else if (errorCode === 'auth/wrong-password') {
+          setServerErrorMessage('Invalid password.');
+        } else {
+          setServerErrorMessage('Something went wrong.');
+        }
+      })
+      .finally(() => {
+        setIsGuestLoading(false);
+      });
   };
 
   return (
@@ -331,6 +400,16 @@ const SignIn = () => {
                   {isLoading ? <span className="loader"></span> : 'Sign In'}
                 </button>
               </form>
+              <div className="ext">
+                <button
+                  type="button"
+                  disabled={isGuestLoading}
+                  onClick={signInAsGuestHandler}
+                >
+                  Continue as Guest
+                </button>
+                {isGuestLoading && <span className="loader small"></span>}
+              </div>
               <p className="info">
                 Don't have an account? <Link href="/signup">Sign Up</Link>
               </p>
