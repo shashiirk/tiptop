@@ -165,8 +165,8 @@ const Products = ({ clothes, brands, categories }) => {
           </div>
           {filteredClothes.length > 0 ? (
             <div className="clothes">
-              {filteredClothes.map((item) => (
-                <ItemCard key={item.id} {...item} />
+              {filteredClothes.map((item, index) => (
+                <ItemCard key={item.id} {...item} setPriority={index < 8} />
               ))}
             </div>
           ) : (

@@ -31,11 +31,17 @@ const Div = styled.div`
   }
 `;
 
-const ItemCard = ({ id, imageURL, brand, name, amount }) => {
+const ItemCard = ({ id, imageURL, brand, name, amount, setPriority }) => {
   return (
     <Div>
       <BetterLink href={`/collections/${id}`}>
-        <Image src={imageURL} width={220} height={275} layout="responsive" />
+        <Image
+          src={imageURL}
+          width={220}
+          height={275}
+          layout="responsive"
+          priority={setPriority}
+        />
         <div className="info">
           <div className="brand">{brand}</div>
           <div className="name">{name}</div>
