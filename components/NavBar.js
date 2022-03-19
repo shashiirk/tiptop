@@ -142,7 +142,11 @@ const Div = styled.div`
 const NavBar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const wishlistCount = useSelector((state) => state.wishlist.items.length);
-  const cartCount = useSelector((state) => state.cart.items.length);
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartCount = cartItems.reduce(
+    (prev, cur) => prev + +cur.itemQuantity,
+    0
+  );
 
   const toggleMenuHandler = () => {
     if (isMenuVisible) {
