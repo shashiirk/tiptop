@@ -166,6 +166,16 @@ const WishlistItemCard = ({
   const [showSizePicker, setShowSizePicker] = useState(false);
   const [promptSize, setPromptSize] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartItem = cartItems.find(
+    (item) => item.itemId === id && item.itemSize === size
+  );
+  const cartItemIndex = cartItems.findIndex(
+    (item) => item.itemId === id && item.itemSize === size
+  );
+  const isInCart = !!cartItem;
+
+  console.log(isInCart);
 
   const openSizePickerHandler = () => {
     setShowSizePicker(true);
@@ -195,29 +205,50 @@ const WishlistItemCard = ({
 
   const moveToCartHandler = (ev, fromModal = false) => {
     if (size) {
-      updateDoc(doc(db, user.uid, 'cart'), {
-        items: arrayUnion({
-          itemId: id,
-          itemSize: size,
-          itemQuantity: '1',
-        }),
-      })
-        .then(() => {
-          removeItemHandler();
+      if (isInCart) {
+        console.log('wait you idiot');
+        const updatedItem = {
+          ...cartItem,
+          itemQuantity: (+cartItem.itemQuantity + 1).toString(),
+        };
+        const updatedItems = [...cartItems];
+        updatedItems.splice(cartItemIndex, 1, updatedItem);
+        updateDoc(doc(db, user.uid, 'cart'), {
+          items: updatedItems,
         })
-        .catch((error) => console.log(error));
+          .then(() => {
+            removeItemHandler();
+          })
+          .catch((error) => console.log(error));
+      } else {
+        updateDoc(doc(db, user.uid, 'cart'), {
+          items: arrayUnion({
+            itemId: id,
+            itemSize: size,
+            itemQuantity: '1',
+          }),
+        })
+          .then(() => {
+            removeItemHandler();
+          })
+          .catch((error) => console.log(error));
+      }
     } else if (pickedSize) {
-      updateDoc(doc(db, user.uid, 'cart'), {
-        items: arrayUnion({
-          itemId: id,
-          itemSize: pickedSize,
-          itemQuantity: '1',
-        }),
-      })
-        .then(() => {
-          removeItemHandler();
+      if (isInCart) {
+        console.log('wait you idiot');
+      } else {
+        updateDoc(doc(db, user.uid, 'cart'), {
+          items: arrayUnion({
+            itemId: id,
+            itemSize: pickedSize,
+            itemQuantity: '1',
+          }),
         })
-        .catch((error) => console.log(error));
+          .then(() => {
+            removeItemHandler();
+          })
+          .catch((error) => console.log(error));
+      }
     } else {
       if (fromModal) {
         setPromptSize(true);
