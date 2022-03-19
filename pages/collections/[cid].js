@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
@@ -30,6 +30,15 @@ const MainNav = styled.div`
   span {
     color: #999;
   }
+`;
+
+const rotation = keyframes`
+  from {
+        transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }    
 `;
 
 const Div = styled.div`
@@ -154,6 +163,7 @@ const Div = styled.div`
           cursor: pointer;
           border: none;
           width: 145px;
+          height: 48px;
         }
 
         .cart {
@@ -161,9 +171,18 @@ const Div = styled.div`
           background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
           background: linear-gradient(to right, #8e2de2, #4a00e0);
           color: white;
-          padding: 14px 28px;
           margin-left: 16px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+          .loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: block;
+            animation: ${rotation} 1s linear infinite;
+          }
         }
 
         .wishlist {
@@ -274,6 +293,7 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
   const [size, setSize] = useState('');
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [promptSize, setPromptSize] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const cartItems = useSelector((state) => state.cart.items);
@@ -281,7 +301,13 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
 
   const isWishlisted = !!wishlistItems.find((value) => value.itemId === id);
 
-  const isAddedToCart = !!cartItems.find((value) => value.itemId === id);
+  const cartItem = cartItems.find(
+    (item) => item.itemId === id && item.itemSize === size
+  );
+  const cartItemIndex = cartItems.findIndex(
+    (item) => item.itemId === id && item.itemSize === size
+  );
+  const isInCart = !!cartItem;
 
   const openSizeChartHandler = () => {
     setShowSizeChart(true);
@@ -308,23 +334,43 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
     if (user) {
       if (size) {
         setPromptSize(false);
-        updateDoc(doc(db, user.uid, 'cart'), {
-          items: arrayUnion({
-            itemId: id,
-            itemSize: size,
-            itemQuantity: '1',
-          }),
-        }).catch((error) => console.log(error));
+        setIsLoading(true);
+        if (isInCart) {
+          const updatedItem = {
+            ...cartItem,
+            itemQuantity: (+cartItem.itemQuantity + 1).toString(),
+          };
+          const updatedItems = [...cartItems];
+          updatedItems.splice(cartItemIndex, 1, updatedItem);
+          updateDoc(doc(db, user.uid, 'cart'), {
+            items: updatedItems,
+          })
+            .then(() => {
+              removeItemHandler();
+            })
+            .catch((error) => console.log(error))
+            .finally(() => {
+              setIsLoading(false);
+            });
+        } else {
+          updateDoc(doc(db, user.uid, 'cart'), {
+            items: arrayUnion({
+              itemId: id,
+              itemSize: size,
+              itemQuantity: '1',
+            }),
+          })
+            .catch((error) => console.log(error))
+            .finally(() => {
+              setIsLoading(false);
+            });
+        }
       } else {
         setPromptSize(true);
       }
     } else {
       router.push('/signin');
     }
-  };
-
-  const goToCartHandler = () => {
-    router.push('/cart');
   };
 
   return (
@@ -381,9 +427,10 @@ const ItemDetails = ({ id, imageURL, brand, category, name, amount }) => {
               </button>
               <button
                 className="cart"
-                onClick={isAddedToCart ? goToCartHandler : addToCartHandler}
+                onClick={addToCartHandler}
+                disabled={isLoading}
               >
-                {isAddedToCart ? 'Go to Cart' : 'Add to Cart'}
+                {isLoading ? <span className="loader"></span> : 'Add to Cart'}
               </button>
             </div>
           </div>

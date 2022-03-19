@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
+import uniqid from 'uniqid';
 
 import EmptyCart from '../components/EmptyCart';
 import CartItemCard from '../components/CartItemCard';
@@ -184,6 +185,7 @@ const Cart = () => {
       updateDoc(doc(db, user.uid, 'cart'), {
         items: [],
       }).then(() => {
+        console.log('cart.js // 190');
         setIsPlacingOrder(false);
       });
     });
@@ -210,7 +212,7 @@ const Cart = () => {
                 </div>
                 <div className="clothes">
                   {clothes.map((item, index) => (
-                    <CartItemCard key={item.id} index={index} {...item} />
+                    <CartItemCard key={uniqid()} index={index} {...item} />
                   ))}
                 </div>
               </div>

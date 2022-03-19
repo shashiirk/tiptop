@@ -175,8 +175,6 @@ const WishlistItemCard = ({
   );
   const isInCart = !!cartItem;
 
-  console.log(isInCart);
-
   const openSizePickerHandler = () => {
     setShowSizePicker(true);
   };
@@ -206,7 +204,6 @@ const WishlistItemCard = ({
   const moveToCartHandler = (ev, fromModal = false) => {
     if (size) {
       if (isInCart) {
-        console.log('wait you idiot');
         const updatedItem = {
           ...cartItem,
           itemQuantity: (+cartItem.itemQuantity + 1).toString(),
@@ -234,8 +231,28 @@ const WishlistItemCard = ({
           .catch((error) => console.log(error));
       }
     } else if (pickedSize) {
+      const cartItem = cartItems.find(
+        (item) => item.itemId === id && item.itemSize === pickedSize
+      );
+      const cartItemIndex = cartItems.findIndex(
+        (item) => item.itemId === id && item.itemSize === pickedSize
+      );
+      const isInCart = !!cartItem;
+
       if (isInCart) {
-        console.log('wait you idiot');
+        const updatedItem = {
+          ...cartItem,
+          itemQuantity: (+cartItem.itemQuantity + 1).toString(),
+        };
+        const updatedItems = [...cartItems];
+        updatedItems.splice(cartItemIndex, 1, updatedItem);
+        updateDoc(doc(db, user.uid, 'cart'), {
+          items: updatedItems,
+        })
+          .then(() => {
+            removeItemHandler();
+          })
+          .catch((error) => console.log(error));
       } else {
         updateDoc(doc(db, user.uid, 'cart'), {
           items: arrayUnion({

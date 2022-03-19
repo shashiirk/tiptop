@@ -200,11 +200,53 @@ const CartItemCard = ({
   const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.items);
 
-  useEffect(() => {
-    const item = cartItems.find((item) => item.itemId === id);
+  // useEffect(() => {
+  //   const item = cartItems.find((item) => item.itemId === id);
+  //   const updatedItem = {
+  //     ...item,
+  //     itemQuantity: currentQuantity,
+  //   };
+  //   const updatedItems = [...cartItems];
+  //   updatedItems.splice(index, 1, updatedItem);
+  //   updateDoc(doc(db, user.uid, 'cart'), {
+  //     items: updatedItems,
+  //   })
+  //     .then(() => {
+  //       console.log('cart.js // 216');
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [currentQuantity]);
+
+  const removeItemHandler = () => {
+    updateDoc(doc(db, user.uid, 'cart'), {
+      items: arrayRemove({
+        itemId: id,
+        itemSize: size,
+        itemQuantity: currentQuantity,
+      }),
+    })
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
+
+  const openQuantityPickerHandler = () => {
+    setShowQuantityPicker(true);
+  };
+
+  const closeQuantityPickerHandler = () => {
+    setShowQuantityPicker(false);
+  };
+
+  const setQuantityHandler = (selectedQuantity) => {
+    setCurrentQuantity(selectedQuantity);
+    const item = cartItems.find(
+      (item) => item.itemId === id && item.itemSize === size
+    );
     const updatedItem = {
       ...item,
-      itemQuantity: currentQuantity,
+      itemQuantity: selectedQuantity,
     };
     const updatedItems = [...cartItems];
     updatedItems.splice(index, 1, updatedItem);
@@ -215,24 +257,6 @@ const CartItemCard = ({
       .catch((error) => {
         console.log(error);
       });
-  }, [currentQuantity]);
-
-  const removeItemHandler = () => {
-    updateDoc(doc(db, user.uid, 'cart'), {
-      items: arrayRemove({
-        itemId: id,
-        itemSize: size,
-        itemQuantity: currentQuantity,
-      }),
-    }).catch((error) => console.log(error));
-  };
-
-  const openQuantityPickerHandler = () => {
-    setShowQuantityPicker(true);
-  };
-
-  const closeQuantityPickerHandler = () => {
-    setShowQuantityPicker(false);
   };
 
   return (
@@ -275,7 +299,7 @@ const CartItemCard = ({
             <div className="quantities">
               <QuantityPicker
                 currentQuantity={currentQuantity}
-                onSetQuantity={setCurrentQuantity}
+                onSetQuantity={setQuantityHandler}
               />
             </div>
           </ModalDiv>
